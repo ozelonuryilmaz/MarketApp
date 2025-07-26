@@ -11,16 +11,9 @@ protocol IListingCoordinator: INavigationCoordinator {
 
 final class ListingCoordinator: NavigationCoordinator, IListingCoordinator {
 
-    private weak var delegate: ListingViewControllerDelegate?
-    
-    @discardableResult
-    func with(delegate: ListingViewControllerDelegate) -> Self {
-        self.delegate = delegate
-        return self
-    }
     
     override func start() {
-        let controller = ListingBuilder.generate(coordinator: self, delegate: delegate)
+        let controller = ListingBuilder.generate(coordinator: self)
         //controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }

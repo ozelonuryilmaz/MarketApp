@@ -9,7 +9,7 @@ import Foundation
 
 protocol IBasketVMLogic {
     
-    init(data: BasketParams)
+    init()
     
 }
 
@@ -18,7 +18,7 @@ struct BasketVMLogic: IBasketVMLogic {
     // MARK: Definitions
     
     // MARK: Initialize
-    init(data: BasketParams) {
+    init() {
         
     }
     

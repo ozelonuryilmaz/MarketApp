@@ -9,7 +9,7 @@ import Foundation
 
 protocol IFavoriteVMLogic {
     
-    init(data: FavoriteParams)
+    init()
     
 }
 
@@ -18,7 +18,7 @@ struct FavoriteVMLogic: IFavoriteVMLogic {
     // MARK: Definitions
     
     // MARK: Initialize
-    init(data: FavoriteParams) {
+    init() {
         
     }
     

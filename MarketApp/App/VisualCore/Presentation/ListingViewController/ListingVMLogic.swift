@@ -9,7 +9,7 @@ import Foundation
 
 protocol IListingVMLogic {
     
-    init(data: ListingParams)
+    init()
     
 }
 
@@ -18,7 +18,7 @@ struct ListingVMLogic: IListingVMLogic {
     // MARK: Definitions
     
     // MARK: Initialize
-    init(data: ListingParams) {
+    init() {
         
     }
     

@@ -12,17 +12,13 @@ protocol ListingViewControllerDelegate: AnyObject {
 }
 
 final class ListingViewController: MarketBaseViewController<ListingRootView> {
-    
-    private weak var delegate: ListingViewControllerDelegate?
-    
+
     // MARK: Injection
     private let viewModel: IListingViewModel
     
     // MARK: Init
-    init(viewModel: IListingViewModel,
-         delegate: ListingViewControllerDelegate? = nil) {
+    init(viewModel: IListingViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
         super.init()
     }
     

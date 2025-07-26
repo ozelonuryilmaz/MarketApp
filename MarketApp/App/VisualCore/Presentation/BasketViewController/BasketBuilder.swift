@@ -9,12 +9,10 @@ import UIKit
 
 enum BasketBuilder {
     
-    static func generate(coordinator: IBasketCoordinator & BaseCoordinator,
-                         delegate: BasketViewControllerDelegate?) -> BasketViewController {
+    static func generate(coordinator: IBasketCoordinator) -> BasketViewController {
         
         let repository: IBasketRepository = BasketRepository()
-        let data: BasketParams = coordinator.getParams()
-        let vmLogic: IBasketVMLogic = BasketVMLogic(data: data)
+        let vmLogic: IBasketVMLogic = BasketVMLogic()
         
         let viewModel: IBasketViewModel = BasketViewModel(
             repository: repository,
@@ -23,8 +21,7 @@ enum BasketBuilder {
         )
 
         return BasketViewController(
-            viewModel: viewModel,
-            delegate: delegate
+            viewModel: viewModel
         )
     }
 }

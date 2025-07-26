@@ -21,24 +21,28 @@ class MainTabbarCoordinator: RootableCoordinator {
         let listingNavController = MainNavigationController()
         listingNavController.tabBarItem.image = .tab_listing
         listingNavController.tabBarItem.selectedImage = .tab_listing_selected
+        listingNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let listingCoordinator = ListingCoordinator(navigationController: listingNavController)
 
         // Cart
         let basketNavController = MainNavigationController()
         basketNavController.tabBarItem.image = .tab_cart
         basketNavController.tabBarItem.selectedImage = .tab_cart_selected
+        basketNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let basketCoordinator = BasketCoordinator(navigationController: basketNavController)
 
         // Favorite
         let favoriteNavController = MainNavigationController()
         favoriteNavController.tabBarItem.image = .tab_favorite
         favoriteNavController.tabBarItem.selectedImage = .tab_favorite_selected
+        favoriteNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let favoriteCoordinator = FavoriteCoordinator(navigationController: favoriteNavController)
 
         // Profile
         let profileNavController = MainNavigationController()
         profileNavController.tabBarItem.image = .tab_profile
         profileNavController.tabBarItem.selectedImage = .tab_profile_selected
+        profileNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         let profileCoordinator = ProfileCoordinator(navigationController: profileNavController)
 
         // workerNavController
@@ -53,10 +57,10 @@ class MainTabbarCoordinator: RootableCoordinator {
         window?.makeKeyAndVisible()
 
         // Coordinate to first controllers for tabs
-        coordinate(to: listingCoordinator)
-        coordinate(to: basketCoordinator)
-        coordinate(to: favoriteCoordinator)
-        coordinate(to: profileCoordinator)
+        listingCoordinator.start()
+        basketCoordinator.start()
+        favoriteCoordinator.start()
+        profileCoordinator.start()
 
         // Uygulamanın ilk açılış ekranı
         self.mainTabbarController.changeTabbarItemController(position: .listing)

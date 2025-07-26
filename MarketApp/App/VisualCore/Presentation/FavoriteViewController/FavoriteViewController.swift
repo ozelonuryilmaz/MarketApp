@@ -13,16 +13,12 @@ protocol FavoriteViewControllerDelegate: AnyObject {
 
 final class FavoriteViewController: MarketBaseViewController<FavoriteRootView> {
     
-    private weak var delegate: FavoriteViewControllerDelegate?
-    
     // MARK: Injection
     private let viewModel: IFavoriteViewModel
     
     // MARK: Init
-    init(viewModel: IFavoriteViewModel,
-         delegate: FavoriteViewControllerDelegate? = nil) {
+    init(viewModel: IFavoriteViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
         super.init()
     }
     

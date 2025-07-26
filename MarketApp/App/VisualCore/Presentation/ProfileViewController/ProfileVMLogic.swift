@@ -9,7 +9,7 @@ import Foundation
 
 protocol IProfileVMLogic {
     
-    init(data: ProfileParams)
+    init()
     
 }
 
@@ -18,7 +18,7 @@ struct ProfileVMLogic: IProfileVMLogic {
     // MARK: Definitions
     
     // MARK: Initialize
-    init(data: ProfileParams) {
+    init() {
         
     }
     

@@ -12,17 +12,13 @@ protocol ProfileViewControllerDelegate: AnyObject {
 }
 
 final class ProfileViewController: MarketBaseViewController<ProfileRootView> {
-    
-    private weak var delegate: ProfileViewControllerDelegate?
-    
+
     // MARK: Injection
     private let viewModel: IProfileViewModel
     
     // MARK: Init
-    init(viewModel: IProfileViewModel,
-         delegate: ProfileViewControllerDelegate? = nil) {
+    init(viewModel: IProfileViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
         super.init()
     }
     

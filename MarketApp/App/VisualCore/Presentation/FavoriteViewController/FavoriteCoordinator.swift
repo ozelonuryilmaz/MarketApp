@@ -11,16 +11,8 @@ protocol IFavoriteCoordinator: INavigationCoordinator {
 
 final class FavoriteCoordinator: NavigationCoordinator, IFavoriteCoordinator {
 
-    private weak var delegate: FavoriteViewControllerDelegate?
-    
-    @discardableResult
-    func with(delegate: FavoriteViewControllerDelegate) -> Self {
-        self.delegate = delegate
-        return self
-    }
-    
     override func start() {
-        let controller = FavoriteBuilder.generate(coordinator: self, delegate: delegate)
+        let controller = FavoriteBuilder.generate(coordinator: self)
         //controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }

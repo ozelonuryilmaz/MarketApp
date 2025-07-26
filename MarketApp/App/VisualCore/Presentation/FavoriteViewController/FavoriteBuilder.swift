@@ -9,12 +9,10 @@ import UIKit
 
 enum FavoriteBuilder {
     
-    static func generate(coordinator: IFavoriteCoordinator & BaseCoordinator,
-                         delegate: FavoriteViewControllerDelegate?) -> FavoriteViewController {
+    static func generate(coordinator: IFavoriteCoordinator) -> FavoriteViewController {
         
         let repository: IFavoriteRepository = FavoriteRepository()
-        let data: FavoriteParams = coordinator.getParams()
-        let vmLogic: IFavoriteVMLogic = FavoriteVMLogic(data: data)
+        let vmLogic: IFavoriteVMLogic = FavoriteVMLogic()
         
         let viewModel: IFavoriteViewModel = FavoriteViewModel(
             repository: repository,
@@ -23,8 +21,7 @@ enum FavoriteBuilder {
         )
 
         return FavoriteViewController(
-            viewModel: viewModel,
-            delegate: delegate
+            viewModel: viewModel
         )
     }
 }

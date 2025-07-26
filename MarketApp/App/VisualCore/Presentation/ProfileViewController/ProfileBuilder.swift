@@ -9,12 +9,10 @@ import UIKit
 
 enum ProfileBuilder {
     
-    static func generate(coordinator: IProfileCoordinator & BaseCoordinator,
-                         delegate: ProfileViewControllerDelegate?) -> ProfileViewController {
+    static func generate(coordinator: IProfileCoordinator) -> ProfileViewController {
         
         let repository: IProfileRepository = ProfileRepository()
-        let data: ProfileParams = coordinator.getParams()
-        let vmLogic: IProfileVMLogic = ProfileVMLogic(data: data)
+        let vmLogic: IProfileVMLogic = ProfileVMLogic()
         
         let viewModel: IProfileViewModel = ProfileViewModel(
             repository: repository,
@@ -23,8 +21,7 @@ enum ProfileBuilder {
         )
 
         return ProfileViewController(
-            viewModel: viewModel,
-            delegate: delegate
+            viewModel: viewModel
         )
     }
 }

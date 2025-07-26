@@ -12,17 +12,13 @@ protocol BasketViewControllerDelegate: AnyObject {
 }
 
 final class BasketViewController: MarketBaseViewController<BasketRootView> {
-    
-    private weak var delegate: BasketViewControllerDelegate?
-    
+
     // MARK: Injection
     private let viewModel: IBasketViewModel
     
     // MARK: Init
-    init(viewModel: IBasketViewModel,
-         delegate: BasketViewControllerDelegate? = nil) {
+    init(viewModel: IBasketViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
         super.init()
     }
     

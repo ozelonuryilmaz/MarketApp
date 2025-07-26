@@ -9,12 +9,10 @@ import UIKit
 
 enum ListingBuilder {
     
-    static func generate(coordinator: IListingCoordinator & BaseCoordinator,
-                         delegate: ListingViewControllerDelegate?) -> ListingViewController {
+    static func generate(coordinator: IListingCoordinator) -> ListingViewController {
         
         let repository: IListingRepository = ListingRepository()
-        let data: ListingParams = coordinator.getParams()
-        let vmLogic: IListingVMLogic = ListingVMLogic(data: data)
+        let vmLogic: IListingVMLogic = ListingVMLogic()
         
         let viewModel: IListingViewModel = ListingViewModel(
             repository: repository,
@@ -23,8 +21,7 @@ enum ListingBuilder {
         )
 
         return ListingViewController(
-            viewModel: viewModel,
-            delegate: delegate
+            viewModel: viewModel
         )
     }
 }

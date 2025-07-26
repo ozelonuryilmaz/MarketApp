@@ -11,16 +11,8 @@ protocol IProfileCoordinator: INavigationCoordinator {
 
 final class ProfileCoordinator: NavigationCoordinator, IProfileCoordinator {
 
-    private weak var delegate: ProfileViewControllerDelegate?
-    
-    @discardableResult
-    func with(delegate: ProfileViewControllerDelegate) -> Self {
-        self.delegate = delegate
-        return self
-    }
-    
     override func start() {
-        let controller = ProfileBuilder.generate(coordinator: self, delegate: delegate)
+        let controller = ProfileBuilder.generate(coordinator: self)
         //controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }
