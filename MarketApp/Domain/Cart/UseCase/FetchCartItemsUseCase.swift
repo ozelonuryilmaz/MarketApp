@@ -11,7 +11,7 @@ protocol IFetchCartItemsUseCase {
     func execute() -> AnyPublisher<[CartEntity], Error>
 }
 
-final class FetchCartItemsUseCase: IFetchCartItemsUseCase {
+struct FetchCartItemsUseCase: IFetchCartItemsUseCase {
     private let repository: ICartRepository
 
     init(repository: ICartRepository) {

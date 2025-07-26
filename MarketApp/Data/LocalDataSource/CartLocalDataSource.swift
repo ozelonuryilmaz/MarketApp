@@ -15,7 +15,7 @@ protocol ICartLocalDataSource: AnyObject {
     func clearAllCartEntity() -> AnyPublisher<Bool, Error>
 }
 
-class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocalDataSource {
+final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocalDataSource {
 
     func fetchCart() -> AnyPublisher<[ProductCartDTO], Error> {
         Future<[ProductCartDTO], Error> { [weak self] promise in

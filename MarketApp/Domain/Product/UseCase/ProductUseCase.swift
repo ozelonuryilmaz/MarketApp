@@ -11,7 +11,7 @@ protocol IProductUseCase {
     func execute(page: Int, limit: Int) -> AnyPublisher<[ProductEntity], NetworkError>
 }
 
-final class ProductUseCase: IProductUseCase {
+struct ProductUseCase: IProductUseCase {
     private let productRepository: IProductRepository
 
     init(productRepository: IProductRepository) {

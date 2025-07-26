@@ -11,7 +11,7 @@ protocol IAddToCartUseCase {
     func execute(_ item: CartEntity) -> AnyPublisher<Bool, Error>
 }
 
-final class AddToCartUseCase: IAddToCartUseCase {
+struct AddToCartUseCase: IAddToCartUseCase {
     private let repository: ICartRepository
 
     init(repository: ICartRepository) {
