@@ -11,9 +11,9 @@ extension UIView {
     
     func bounceAnimation() {
         let bounceAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
-        bounceAnimation.values = [1.0, 1.3, 0.9, 1.0]
-        bounceAnimation.duration = TimeInterval(0.3)
-        bounceAnimation.calculationMode = CAAnimationCalculationMode.cubic
+        bounceAnimation.values = [1.0, 1.075, 0.975, 1.0]
+        bounceAnimation.duration = 0.3
+        bounceAnimation.calculationMode = .cubic
         layer.add(bounceAnimation, forKey: "m_bounce")
     }
 }

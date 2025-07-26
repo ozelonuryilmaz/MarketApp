@@ -1,5 +1,5 @@
 //
-//  ProfileRootView.swift
+//  BasketRootView.swift
 //  MarketApp
 //
 //  Created by Onur Yılmaz on 26.07.2025.
@@ -8,19 +8,15 @@
 import UIKit
 
 // MARK: View Interface
-protocol ProfileRootViewDelegate: AnyObject {
+protocol BasketRootViewDelegate: AnyObject {
     
     //func listingPhotoTopViewDidTapCapture()
 }
 
-protocol IProfileRootView: AnyObject {
-    func setTitle(_ text: String)
-}
-
 // MARK: View Implementation
-final class ProfileRootView: BaseRootView {
+final class BasketRootView: BaseRootView {
     
-    weak var delegate: ProfileRootViewDelegate?
+    weak var delegate: BasketRootViewDelegate?
     
     // MARK: Init
     init() {
@@ -35,7 +31,7 @@ final class ProfileRootView: BaseRootView {
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "Profile"
+        label.text = "Basket"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +46,7 @@ final class ProfileRootView: BaseRootView {
 }
 
 // MARK: Setup
-private extension ProfileRootView {
+private extension BasketRootView {
     
     func setupUI() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -70,8 +66,8 @@ private extension ProfileRootView {
     }
 }
 
-// MARK:  Button Tapped
-@objc private extension ProfileRootView {
+// MARK: Button Tapped
+@objc private extension BasketRootView {
     
     func listingPhotoTopViewDidTapCapture() {
         //delegate?.listingPhotoTopViewDidTapCapture()
@@ -79,8 +75,8 @@ private extension ProfileRootView {
 }
 
 
-// MARK: IProfileRootView
-extension ProfileRootView: IProfileRootView {
+// MARK: Setter
+extension BasketRootView {
     
     func setTitle(_ text: String) {
         titleLabel.text = text

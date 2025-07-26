@@ -13,10 +13,6 @@ protocol FavoriteRootViewDelegate: AnyObject {
     //func listingPhotoTopViewDidTapCapture()
 }
 
-protocol IFavoriteRootView: AnyObject {
-    func setTitle(_ text: String)
-}
-
 // MARK: View Implementation
 final class FavoriteRootView: BaseRootView {
     
@@ -79,8 +75,8 @@ private extension FavoriteRootView {
 }
 
 
-// MARK: IFavoriteRootView
-extension FavoriteRootView: IFavoriteRootView {
+// MARK: Setter
+extension FavoriteRootView {
     
     func setTitle(_ text: String) {
         titleLabel.text = text

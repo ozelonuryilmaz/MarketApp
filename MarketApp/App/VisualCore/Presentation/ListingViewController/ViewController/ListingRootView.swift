@@ -1,5 +1,5 @@
 //
-//  BasketRootView.swift
+//  ListingRootView.swift
 //  MarketApp
 //
 //  Created by Onur Yılmaz on 26.07.2025.
@@ -8,19 +8,15 @@
 import UIKit
 
 // MARK: View Interface
-protocol BasketRootViewDelegate: AnyObject {
+protocol ListingRootViewDelegate: AnyObject {
     
     //func listingPhotoTopViewDidTapCapture()
 }
 
-protocol IBasketRootView: AnyObject {
-    func setTitle(_ text: String)
-}
-
 // MARK: View Implementation
-final class BasketRootView: BaseRootView {
+final class ListingRootView: BaseRootView {
     
-    weak var delegate: BasketRootViewDelegate?
+    weak var delegate: ListingRootViewDelegate?
     
     // MARK: Init
     init() {
@@ -35,7 +31,7 @@ final class BasketRootView: BaseRootView {
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "Basket"
+        label.text = "Listing"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +46,7 @@ final class BasketRootView: BaseRootView {
 }
 
 // MARK: Setup
-private extension BasketRootView {
+private extension ListingRootView {
     
     func setupUI() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +67,7 @@ private extension BasketRootView {
 }
 
 // MARK:  Button Tapped
-@objc private extension BasketRootView {
+@objc private extension ListingRootView {
     
     func listingPhotoTopViewDidTapCapture() {
         //delegate?.listingPhotoTopViewDidTapCapture()
@@ -79,8 +75,8 @@ private extension BasketRootView {
 }
 
 
-// MARK: IBasketRootView
-extension BasketRootView: IBasketRootView {
+// MARK: Setter
+extension ListingRootView {
     
     func setTitle(_ text: String) {
         titleLabel.text = text

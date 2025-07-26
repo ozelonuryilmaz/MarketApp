@@ -44,7 +44,6 @@ final class MainTabbarController: UITabBarController {
     }
 
     func changeTabbarItemController(position: MainTabbarItemPosition) {
-        // gerekirse eğer delegate ile dışarı aktarma yapılacak.
         self.selectedIndex = position.rawValue
 
         self.lastSelectedTabItemPosition = position
@@ -62,10 +61,7 @@ extension MainTabbarController {
 
         imageView.bounceAnimation()
 
-        // calculate selected position
         let selectedTabItemPosition = MainTabbarItemPosition(rawValue: idx) ?? .none
-
-        // son tıklanan tutuluyor.
         self.lastSelectedTabItemPosition = selectedTabItemPosition
     }
 }

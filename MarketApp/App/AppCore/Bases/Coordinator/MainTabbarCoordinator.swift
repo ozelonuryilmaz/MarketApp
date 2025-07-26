@@ -62,10 +62,10 @@ class MainTabbarCoordinator: RootableCoordinator {
         favoriteCoordinator.start()
         profileCoordinator.start()
 
-        // Uygulamanın ilk açılış ekranı
+        // Initial launch screen of the application
         self.mainTabbarController.changeTabbarItemController(position: .listing)
 
-        // uygulamaya giriş yapıldıktan 1 saniye sonra tetiklenen callback
+        // Callback triggered 1 second after user logs into the app
         DispatchQueue.delay(1000) { [weak self] in
             self?.callbackIsPreparedMainScreen?()
         }
