@@ -9,7 +9,7 @@ import Combine
 
 protocol IListingRepository: AnyObject {
     
-    func fetchProducts(page: Int, limit: Int) -> AnyPublisher<[ProductEntity], NetworkError>
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError>
 }
 
 final class ListingRepository: BaseRepository, IListingRepository {
@@ -19,7 +19,7 @@ final class ListingRepository: BaseRepository, IListingRepository {
         self.productUseCase = productUseCase
     }
     
-    func fetchProducts(page: Int, limit: Int) -> AnyPublisher<[ProductEntity], NetworkError> {
-        return productUseCase.execute(page: page, limit: limit)
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError> {
+        return productUseCase.execute(page: page, limit: limit, name: name)
     }
 }

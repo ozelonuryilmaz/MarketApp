@@ -25,6 +25,11 @@ final class ListingRootView: BaseRootView {
         setupUI()
     }
     
+    func setDataSource(delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource) {
+        collectionView.delegate = delegate
+        collectionView.dataSource = dataSource
+    }
+    
     // MARK: Definitions
     private lazy var searchTextField: SearchTextField = {
         let textfield = SearchTextField()
@@ -55,13 +60,21 @@ final class ListingRootView: BaseRootView {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 12
+        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 8
+
+        let totalSpacing: CGFloat = 16 * 3
+        let width = (UIScreen.main.bounds.width - totalSpacing) / 2
+        layout.itemSize = CGSize(width: width, height: width + 100)
+
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.contentInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16) // Kenar boşlukları
         cv.keyboardDismissMode = .onDrag
         cv.backgroundColor = .white
+        cv.register(ListingProductCell.self, forCellWithReuseIdentifier: ListingProductCell.identifier)
         return cv
     }()
+    
 }
 
 // MARK: Setup

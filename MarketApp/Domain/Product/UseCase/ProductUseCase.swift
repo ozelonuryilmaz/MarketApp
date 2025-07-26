@@ -8,7 +8,7 @@
 import Combine
 
 protocol IProductUseCase {
-    func execute(page: Int, limit: Int) -> AnyPublisher<[ProductEntity], NetworkError>
+    func execute(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError>
 }
 
 struct ProductUseCase: IProductUseCase {
@@ -18,9 +18,9 @@ struct ProductUseCase: IProductUseCase {
         self.productRepository = productRepository
     }
 
-    func execute(page: Int, limit: Int) -> AnyPublisher<[ProductEntity], NetworkError> {
-        productRepository.fetchProducts(page: page, limit: limit)
-            .map { $0.map { ProductEntity(image: $0.image, name: $0.name) } }
+    func execute(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError> {
+        productRepository.fetchProducts(page: page, limit: limit, name: name)
+            .map { $0.map { ProductEntity(image: $0.image, name: $0.name, price: $0.price) } }
             .eraseToAnyPublisher()
     }
 }

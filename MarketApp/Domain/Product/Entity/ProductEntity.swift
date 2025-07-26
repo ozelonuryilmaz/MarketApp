@@ -8,9 +8,11 @@
 struct ProductEntity: Codable {
     let image: String
     let name: String
+    let price: String
     
-    init(image: String, name: String) {
+    init(image: String, name: String, price: String) {
         self.image = image
         self.name = name
+        self.price = price
     }
 }

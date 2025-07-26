@@ -16,6 +16,13 @@ protocol IListingViewModel: ListingRootViewDelegate {
     init(repository: IListingRepository,
          coordinator: IListingCoordinator,
          vmLogic: IListingVMLogic)
+    
+    func fetchProductsPagination()
+    func firstProductsList()
+    
+    // CollectionView
+    func numberOfRowsInSection() -> Int
+    func getCellProductModel(at index: Int) -> ProductEntity
 }
 
 final class ListingViewModel: BaseViewModel, IListingViewModel {
@@ -37,11 +44,21 @@ final class ListingViewModel: BaseViewModel, IListingViewModel {
         self.coordinator = coordinator
         self.vmLogic = vmLogic
         super.init()
-        
-        fetchProducts()
     }
     
+    // Pagination
+    func fetchProductsPagination() {
+        if self.vmLogic.fetchProductsPagination() {
+            self.fetchProducts()
+        }
+    }
+    
+    func firstProductsList() {
+        self.vmLogic.clearRequest()
+        self.fetchProducts()
+    }
 }
+
 
 
 // MARK: Service
@@ -49,13 +66,22 @@ internal extension ListingViewModel {
     
     func fetchProducts() {
         handleResourceDataSource(
-            request: repository.fetchProducts(page: 1, limit: 1),
+            request: repository.fetchProducts(page: vmLogic.pageSize, limit: vmLogic.pageNumber, name: vmLogic.searchText),
             errorState: errorState,
             callbackLoading: { [weak self] isProgress in
                 self?.viewStateShowLoadingProgress(isProgress: isProgress)
-            }, callbackSuccess: { [weak self] response in
-                print("Debug: 1** \(response)")
-            })
+            },
+            callbackSuccess: { [weak self] response in
+                guard let self, let response else { return }
+                self.vmLogic.products = response
+                // TODO: Pagination gelen eskinin üzerime eklenmeli
+                // TODO: reloadData
+            },
+            callbackComplete: { [weak self] in
+                guard let self = self else { return }
+                self.vmLogic.stopPagination()
+            }
+        )
     }
 }
 
@@ -81,7 +107,20 @@ internal extension ListingViewModel {
     }
     
     func listingViewSearchTextDidChange(_ text: String) {
-        print("Debug: listingViewSearchTextDidChange: \(text)")
+        vmLogic.searchText = text
+        firstProductsList()
+    }
+}
+
+// MARK: CollectionView
+internal extension ListingViewModel {
+    
+    func numberOfRowsInSection() -> Int {
+        return vmLogic.numberOfRowsInSection()
+    }
+    
+    func getCellProductModel(at index: Int) -> ProductEntity {
+        return vmLogic.getCellProductModel(at: index)
     }
 }
 

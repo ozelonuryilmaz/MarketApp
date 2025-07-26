@@ -8,9 +8,11 @@
 struct ProductDTO: Decodable {
     let image: String
     let name: String
+    let price: String
     
-    init(image: String, name: String) {
+    init(image: String, name: String, price: String) {
         self.name = name
         self.image = image
+        self.price = price
     }
 }
