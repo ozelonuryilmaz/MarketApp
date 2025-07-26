@@ -11,7 +11,9 @@ enum ListingBuilder {
     
     static func generate(coordinator: IListingCoordinator) -> ListingViewController {
         
-        let repository: IListingRepository = ListingRepository()
+        let productUseCase: IProductUseCase = ProductUseCaseProvider.makeProductUseCase()
+        let repository: IListingRepository = ListingRepository(productUseCase: productUseCase)
+
         let vmLogic: IListingVMLogic = ListingVMLogic()
         
         let viewModel: IListingViewModel = ListingViewModel(

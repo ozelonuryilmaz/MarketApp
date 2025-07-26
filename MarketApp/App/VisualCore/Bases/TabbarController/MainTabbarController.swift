@@ -25,6 +25,10 @@ final class MainTabbarController: UITabBarController {
 
     private var tabbarControllerDelegate: UITabBarControllerDelegate?
     private var lastSelectedTabItemPosition: MainTabbarItemPosition = .none
+    
+    deinit {
+        print("killed: \(type(of: self))")
+    }
 
     init(tabbarControllerDelegate: UITabBarControllerDelegate?) {
         self.tabbarControllerDelegate = tabbarControllerDelegate

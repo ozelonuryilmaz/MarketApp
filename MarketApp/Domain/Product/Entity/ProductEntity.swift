@@ -5,7 +5,7 @@
 //  Created by Onur Yılmaz on 25.07.2025.
 //
 
-struct ProductEntity {
+struct ProductEntity: Codable {
     let image: String
     let name: String
     

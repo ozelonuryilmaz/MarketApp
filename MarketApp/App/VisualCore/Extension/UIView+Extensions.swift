@@ -16,4 +16,13 @@ extension UIView {
         bounceAnimation.calculationMode = .cubic
         layer.add(bounceAnimation, forKey: "m_bounce")
     }
+    
+    func animatedAlpha(from: CGFloat, to: CGFloat, withDuration: TimeInterval = 0.3) {
+        DispatchQueue.main.async {
+            self.alpha = from
+            UIView.animate(withDuration: withDuration, delay: 0.0, options: .curveLinear, animations: {
+                self.alpha = to
+            }, completion: nil)
+        }
+    }
 }

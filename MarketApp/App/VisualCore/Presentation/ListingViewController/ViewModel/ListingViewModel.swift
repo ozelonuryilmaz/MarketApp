@@ -37,6 +37,8 @@ final class ListingViewModel: BaseViewModel, IListingViewModel {
         self.coordinator = coordinator
         self.vmLogic = vmLogic
         super.init()
+        
+        fetchProducts()
     }
     
 }
@@ -45,6 +47,16 @@ final class ListingViewModel: BaseViewModel, IListingViewModel {
 // MARK: Service
 internal extension ListingViewModel {
     
+    func fetchProducts() {
+        handleResourceDataSource(
+            request: repository.fetchProducts(page: 1, limit: 1),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            }, callbackSuccess: { [weak self] response in
+                print("Debug: 1** \(response)")
+            })
+    }
 }
 
 // MARK: States
@@ -54,7 +66,6 @@ internal extension ListingViewModel {
     func viewStateShowLoadingProgress(isProgress: Bool) {
         viewState.value = .showLoadingProgress(isProgress: isProgress)
     }
-    
 }
 
 // MARK: Coordinate

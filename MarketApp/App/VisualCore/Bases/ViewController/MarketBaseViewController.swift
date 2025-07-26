@@ -17,6 +17,7 @@ class MarketBaseViewController<RootView: BaseRootView>: UIViewController {
     }
     
     var cancelBag = Set<AnyCancellable>()
+    private var nativeProgressView: NativeProgressView?
     
     deinit {
         print("killed: \(type(of: self))")
@@ -38,6 +39,7 @@ class MarketBaseViewController<RootView: BaseRootView>: UIViewController {
 
     internal func initDidLoad() {
         self.view.backgroundColor = baseBackgroundColor
+        self.nativeProgressView = NativeProgressView()
         self.setupRootView()
         self.setupView()
         self.initialComponents()
@@ -67,11 +69,11 @@ extension MarketBaseViewController {
     }
     
     func playNativeLoading() {
-        
+        nativeProgressView?.playAnimation()
     }
     
     func stopNativeLoading() {
-        
+        nativeProgressView?.stopAnimation()
     }
 }
 

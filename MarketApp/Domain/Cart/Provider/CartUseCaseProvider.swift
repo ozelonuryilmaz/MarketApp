@@ -9,11 +9,11 @@ import Foundation
 
 enum CartUseCaseProvider {
     
-    static func makeAddToCartUseCase() -> AddToCartUseCase {
+    static func makeAddToCartUseCase() -> IAddToCartUseCase {
         return AddToCartUseCase(repository: self.makeCartRepository())
     }
     
-    static func makeFetchCartItemsUseCase() -> FetchCartItemsUseCase {
+    static func makeFetchCartItemsUseCase() -> IFetchCartItemsUseCase {
         return FetchCartItemsUseCase(repository: self.makeCartRepository())
     }
     

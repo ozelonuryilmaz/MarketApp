@@ -7,15 +7,14 @@
 
 import UIKit
 
-@IBDesignable
 public final class MarketTabBar: UITabBar {
 
     // MARK:- Variables -
     @objc public var centerButtonActionHandler: () -> () = { }
 
-    @IBInspectable public var tabbarColor: UIColor = .white
-    @IBInspectable public var selectedItemColor: UIColor = .white
-    @IBInspectable public var unselectedItemColor: UIColor = .white
+    public var tabbarColor: UIColor = .white
+    public var selectedItemColor: UIColor = .white
+    public var unselectedItemColor: UIColor = .white
 
     private var shapeLayer: CALayer?
 

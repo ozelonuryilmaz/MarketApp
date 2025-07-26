@@ -18,12 +18,11 @@ class BaseViewModel {
         print("killed: \(type(of: self))")
     }
 
-    func handleResourceFirestore<CONTENT: Codable, RESPONSE: Codable>(
-        request: PassthroughSubject<CONTENT, Error>,
-        response: CurrentValueSubject<RESPONSE?, Never>,
+    func handleResourceDataSource<RESPONSE: Codable>(
+        request: AnyPublisher<RESPONSE, NetworkError>,
         errorState: ErrorStateSubject,
         callbackLoading: ((Bool) -> Void)? = nil,
-        callbackSuccess: (() -> Void)? = nil,
+        callbackSuccess: ((RESPONSE?) -> Void)? = nil,
         callbackComplete: (() -> Void)? = nil
     ) {
 
@@ -43,8 +42,7 @@ class BaseViewModel {
 
         }, receiveValue: { value in
             if let castValue = value as? RESPONSE {
-                response.value = castValue
-                callbackSuccess?()
+                callbackSuccess?(castValue)
             } else {
                 errorState.value = .decodingError
             }

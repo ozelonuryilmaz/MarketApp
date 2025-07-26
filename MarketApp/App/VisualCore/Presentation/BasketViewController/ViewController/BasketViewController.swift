@@ -30,11 +30,7 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
         observeViewState()
         listenErrorState()
     }
- 
-    /*override func setLayoutStyle() -> (top: EdgeLayoutStyle, leading: EdgeLayoutStyle, bottom: EdgeLayoutStyle, trailing: EdgeLayoutStyle) {
-        return (.safeArea, .safeArea, .safeArea, .safeArea)
-    }*/
-    
+
     // MARK: Bindings
     private func observeViewState() {
         viewModel.viewState
@@ -46,8 +42,7 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
             .store(in: &cancelBag)
     }
     
-    private func handle(state: BasketViewState?) {
-        guard let state = state else { return }
+    private func handle(state: BasketViewState) {
         switch state {
         case .showLoadingProgress(let isProgress):
             self.playNativeLoading(isLoading: isProgress)
