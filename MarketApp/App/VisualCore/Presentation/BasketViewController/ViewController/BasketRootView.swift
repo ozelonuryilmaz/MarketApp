@@ -10,7 +10,7 @@ import UIKit
 // MARK: View Interface
 protocol BasketRootViewDelegate: AnyObject {
     
-    //func listingPhotoTopViewDidTapCapture()
+    //func basketViewDidTapCapture()
 }
 
 // MARK: View Implementation
@@ -40,7 +40,7 @@ final class BasketRootView: BaseRootView {
         let button = UIButton(type: .system)
         button.setTitle("Devam", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(listingPhotoTopViewDidTapCapture), for: .touchUpInside)
+        button.addTarget(self, action: #selector(basketViewDidTapCapture), for: .touchUpInside)
         return button
     }()
 }
@@ -52,14 +52,13 @@ private extension BasketRootView {
         translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(titleLabel)
+        addSubview(actionButton)
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 60),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-        ])
-        
-        addSubview(actionButton)
-        NSLayoutConstraint.activate([
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
             actionButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             actionButton.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
@@ -69,8 +68,8 @@ private extension BasketRootView {
 // MARK: Button Tapped
 @objc private extension BasketRootView {
     
-    func listingPhotoTopViewDidTapCapture() {
-        //delegate?.listingPhotoTopViewDidTapCapture()
+    func basketViewDidTapCapture() {
+        //delegate?.basketViewDidTapCapture()
     }
 }
 

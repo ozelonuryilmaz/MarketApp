@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-protocol IListingViewModel: AnyObject {
-
+protocol IListingViewModel: ListingRootViewDelegate {
+    
     var viewState: ScreenStateSubject<ListingViewState> { get }
     var errorState: ErrorStateSubject { get }
     
@@ -71,6 +71,18 @@ internal extension ListingViewModel {
 // MARK: Coordinate
 internal extension ListingViewModel {
     
+}
+
+// MARK: ListingRootViewDelegate
+internal extension ListingViewModel {
+    
+    func listingViewDidTapFilter() {
+        print("Debug: listingViewDidTapFilter")
+    }
+    
+    func listingViewSearchTextDidChange(_ text: String) {
+        print("Debug: listingViewSearchTextDidChange: \(text)")
+    }
 }
 
 enum ListingViewState {

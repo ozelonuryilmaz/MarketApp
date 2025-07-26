@@ -9,8 +9,8 @@ import UIKit
 
 // MARK: View Interface
 protocol ListingRootViewDelegate: AnyObject {
-    
-    //func listingPhotoTopViewDidTapCapture()
+    func listingViewDidTapFilter()
+    func listingViewSearchTextDidChange(_ text: String)
 }
 
 // MARK: View Implementation
@@ -26,22 +26,41 @@ final class ListingRootView: BaseRootView {
     }
     
     // MARK: Definitions
-    private lazy var titleLabel: UILabel = {
+    private lazy var searchTextField: SearchTextField = {
+        let textfield = SearchTextField()
+        textfield.addTarget(self, action: #selector(listingViewSearchTextDidChange(_:)), for: .editingChanged)
+        return textfield
+    }()
+    
+    private lazy var filterLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textColor = .label
-        label.textAlignment = .center
-        label.text = "Listing"
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Filters:"
+        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.textColor = .black
         return label
     }()
     
-    private lazy var actionButton: UIButton = {
+    private lazy var filterButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Devam", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(listingPhotoTopViewDidTapCapture), for: .touchUpInside)
+        button.setTitle("Select Filter", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.backgroundColor = UIColor.systemGray4
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
+        button.layer.cornerRadius = 0
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+        button.addTarget(self, action: #selector(listingViewDidTapFilter), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 12
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.keyboardDismissMode = .onDrag
+        cv.backgroundColor = .white
+        return cv
     }()
 }
 
@@ -49,19 +68,29 @@ final class ListingRootView: BaseRootView {
 private extension ListingRootView {
     
     func setupUI() {
-        translatesAutoresizingMaskIntoConstraints = false
+        [searchTextField, filterLabel, filterButton, collectionView].forEach {
+            addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
-        addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 60),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-        ])
-        
-        addSubview(actionButton)
-        NSLayoutConstraint.activate([
-            actionButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            actionButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+            searchTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            searchTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            searchTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            searchTextField.heightAnchor.constraint(equalToConstant: 40),
+            
+            filterLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
+            filterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            filterButton.centerYAnchor.constraint(equalTo: filterLabel.centerYAnchor),
+            filterButton.widthAnchor.constraint(equalToConstant: 158),
+            filterButton.heightAnchor.constraint(equalToConstant: 36),
+            filterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            
+            collectionView.topAnchor.constraint(equalTo: filterLabel.bottomAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
@@ -69,16 +98,11 @@ private extension ListingRootView {
 // MARK:  Button Tapped
 @objc private extension ListingRootView {
     
-    func listingPhotoTopViewDidTapCapture() {
-        //delegate?.listingPhotoTopViewDidTapCapture()
+    func listingViewDidTapFilter() {
+        delegate?.listingViewDidTapFilter()
     }
-}
-
-
-// MARK: Setter
-extension ListingRootView {
     
-    func setTitle(_ text: String) {
-        titleLabel.text = text
+    func listingViewSearchTextDidChange(_ textField: UITextField) {
+        delegate?.listingViewSearchTextDidChange(textField.text ?? "")
     }
 }

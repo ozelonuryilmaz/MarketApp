@@ -12,25 +12,30 @@ protocol ListingViewControllerDelegate: AnyObject {
 }
 
 final class ListingViewController: MarketBaseViewController<ListingRootView> {
-
+    
     // MARK: Injection
     private let viewModel: IListingViewModel
+    
+    override var navigationTitle: String? {
+        return "E-Market"
+    }
     
     // MARK: Init
     init(viewModel: IListingViewModel) {
         self.viewModel = viewModel
         super.init()
+        self.rootView.delegate = self.viewModel
     }
     
     override func setupView() {
-        
+        setupKeyboardDismissGesture()
     }
     
     override func initialComponents() {
         observeViewState()
         listenErrorState()
     }
- 
+    
     // MARK: Bindings
     private func observeViewState() {
         viewModel.viewState
@@ -58,4 +63,13 @@ final class ListingViewController: MarketBaseViewController<ListingRootView> {
 // MARK: Props
 private extension ListingViewController {
     
+    func setupKeyboardDismissGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

@@ -10,7 +10,7 @@ import UIKit
 // MARK: View Interface
 protocol FavoriteRootViewDelegate: AnyObject {
     
-    //func listingPhotoTopViewDidTapCapture()
+    //func favoriteViewDidTapCapture()
 }
 
 // MARK: View Implementation
@@ -40,7 +40,7 @@ final class FavoriteRootView: BaseRootView {
         let button = UIButton(type: .system)
         button.setTitle("Devam", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(listingPhotoTopViewDidTapCapture), for: .touchUpInside)
+        button.addTarget(self, action: #selector(favoriteViewDidTapCapture), for: .touchUpInside)
         return button
     }()
 }
@@ -49,17 +49,14 @@ final class FavoriteRootView: BaseRootView {
 private extension FavoriteRootView {
     
     func setupUI() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
         addSubview(titleLabel)
+        addSubview(actionButton)
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 60),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-        ])
-        
-        addSubview(actionButton)
-        NSLayoutConstraint.activate([
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
             actionButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             actionButton.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
@@ -69,8 +66,8 @@ private extension FavoriteRootView {
 // MARK:  Button Tapped
 @objc private extension FavoriteRootView {
     
-    func listingPhotoTopViewDidTapCapture() {
-        //delegate?.listingPhotoTopViewDidTapCapture()
+    func favoriteViewDidTapCapture() {
+        //delegate?.favoriteViewDidTapCapture()
     }
 }
 

@@ -16,6 +16,10 @@ class MarketBaseViewController<RootView: BaseRootView>: UIViewController {
         return .white
     }
     
+    var navigationTitle: String? {
+        return nil
+    }
+    
     var cancelBag = Set<AnyCancellable>()
     private var nativeProgressView: NativeProgressView?
     
@@ -35,6 +39,15 @@ class MarketBaseViewController<RootView: BaseRootView>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let navTitle = navigationTitle {
+            navigationItem.title = navTitle
+        } else {
+            navigationItem.titleView = nil
+        }
     }
 
     internal func initDidLoad() {
