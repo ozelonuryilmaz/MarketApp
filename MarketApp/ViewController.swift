@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 class ViewController: UIViewController {
-
+    
     var cancelBag = Set<AnyCancellable>()
     
     override func viewDidLoad() {
@@ -24,14 +24,18 @@ class ViewController: UIViewController {
         
         
         let addToCartUseCase = CartUseCaseProvider.makeAddToCartUseCase()
-        let _ = addToCartUseCase.execute(CartEntity(id: "1", name: "Apple", quantity: 1, price: "2.5"))
+        addToCartUseCase.execute(CartEntity(id: "24", name: "Samsung", quantity: 2, price: "5.9")).sink(receiveCompletion: { result in }, receiveValue: { value in
+            print("Debug: 2* \(value)")
+        }).store(in: &cancelBag)
         
         let fetchCartItemsUseCase = CartUseCaseProvider.makeFetchCartItemsUseCase()
-        print("Debug: 2* \(fetchCartItemsUseCase.execute())")
+        fetchCartItemsUseCase.execute().sink(receiveCompletion: { result in }, receiveValue: { value in
+            print("Debug: 3* \(value)")
+        }).store(in: &cancelBag)
         
         
     }
-
-
+    
+    
 }
 

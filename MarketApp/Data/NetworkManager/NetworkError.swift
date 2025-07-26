@@ -7,6 +7,10 @@
 
 import Foundation
 
+// TODO: Unify NetworkError and CoreData errors into a single error source.
+// Errors should be propagated through the UseCase layer.
+// In the future, UseCase will need access to data.
+// This data may come from either Local or Remote sources.
 enum NetworkError: LocalizedError, Equatable {
     case badURL
     case noInternet
