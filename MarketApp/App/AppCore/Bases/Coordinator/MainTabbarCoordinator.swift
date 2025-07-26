@@ -24,10 +24,10 @@ class MainTabbarCoordinator: RootableCoordinator {
         let listingCoordinator = ListingCoordinator(navigationController: listingNavController)
 
         // Cart
-        let cartNavController = MainNavigationController()
-        cartNavController.tabBarItem.image = .tab_cart
-        cartNavController.tabBarItem.selectedImage = .tab_cart_selected
-        let cartCoordinator = CartCoordinator(navigationController: cartNavController)
+        let basketNavController = MainNavigationController()
+        basketNavController.tabBarItem.image = .tab_cart
+        basketNavController.tabBarItem.selectedImage = .tab_cart_selected
+        let basketCoordinator = BasketCoordinator(navigationController: basketNavController)
 
         // Favorite
         let favoriteNavController = MainNavigationController()
@@ -44,7 +44,7 @@ class MainTabbarCoordinator: RootableCoordinator {
         // workerNavController
         mainTabbarController.viewControllers = [
             listingNavController,
-            cartNavController,
+            basketNavController,
             favoriteNavController,
             profileNavController
         ]
@@ -54,7 +54,7 @@ class MainTabbarCoordinator: RootableCoordinator {
 
         // Coordinate to first controllers for tabs
         coordinate(to: listingCoordinator)
-        coordinate(to: cartCoordinator)
+        coordinate(to: basketCoordinator)
         coordinate(to: favoriteCoordinator)
         coordinate(to: profileCoordinator)
 

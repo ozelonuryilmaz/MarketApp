@@ -19,6 +19,6 @@ class AppCoordinator: RootableCoordinator, AppCoordinatorFlow {
     override func start() {
         let tabbarCoordinator = MainTabbarCoordinator(window: self.window)
         tabbarCoordinator.callbackIsPreparedMainScreen = callbackIsPreparedMainScreen
-        coordinate(to: tabbarCoordinator)
+        tabbarCoordinator.start()
     }
 }
