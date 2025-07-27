@@ -17,7 +17,7 @@ protocol ICartLocalDataSource: AnyObject {
 
 final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocalDataSource {
     
-    private let queue = DispatchQueue(label: "com.marketdata.cartQueue", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.marketdata.cartQueue", attributes: .concurrent)
     
     func fetchCart() -> AnyPublisher<[ProductCartDTO], AppError> {
         Future { [weak self] promise in
@@ -41,7 +41,7 @@ final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocal
     
     func addOrUpdateCartEntity(_ dto: ProductCartDTO) -> AnyPublisher<Bool, AppError> {
         Future { [weak self] promise in
-            self?.queue.async {
+            self?.queue.async(flags: .barrier) {
                 guard let self else {
                     return promise(.failure(.localUnknown(NSError(domain: "self is nil", code: -1))))
                 }
@@ -73,7 +73,7 @@ final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocal
     
     func removeCartEntity(_ dto: ProductCartDTO) -> AnyPublisher<Bool, AppError> {
         Future { [weak self] promise in
-            self?.queue.async {
+            self?.queue.async(flags: .barrier) {
                 guard let self else {
                     return promise(.failure(.localUnknown(NSError(domain: "self is nil", code: -1))))
                 }
@@ -105,7 +105,7 @@ final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocal
     
     func clearAllCartEntity() -> AnyPublisher<Bool, AppError> {
         Future { [weak self] promise in
-            self?.queue.async {
+            self?.queue.async(flags: .barrier) {
                 guard let self else {
                     return promise(.failure(.localUnknown(NSError(domain: "self is nil", code: -1))))
                 }

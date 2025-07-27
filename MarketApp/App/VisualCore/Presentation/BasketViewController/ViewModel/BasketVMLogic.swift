@@ -50,6 +50,8 @@ extension BasketVMLogic {
 }
 
 // MARK: Quantity Update
+// NOTE: Quantity is updated based on the service response, so Race-Conditions won't occur.
+// However, if logic changes and parallel access happens, make sure the structure is thread-safe.
 extension BasketVMLogic {
     
     mutating func increaseQuantity(for item: CartEntity) {
