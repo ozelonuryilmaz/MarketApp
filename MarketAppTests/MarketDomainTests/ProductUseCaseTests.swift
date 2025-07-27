@@ -24,8 +24,8 @@ final class ProductUseCaseTests: XCTestCase {
     func test_execute_withValidResponse_shouldReturnMappedEntities() {
         // GIVEN
         let productDTOs = [
-            ProductDTO(image: "image1.jpg", name: "Product A", price: "1"),
-            ProductDTO(image: "image2.jpg", name: "Product B", price: "1")
+            ProductDTO(id: "1", image: "image1.jpg", name: "Product A", price: "1", description: "ab"),
+            ProductDTO(id: "2", image: "image2.jpg", name: "Product B", price: "1", description: "cd")
         ]
         mockRepository.result = Just(productDTOs)
             .setFailureType(to: NetworkError.self)

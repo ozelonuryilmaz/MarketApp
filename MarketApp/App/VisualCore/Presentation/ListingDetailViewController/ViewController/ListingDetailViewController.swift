@@ -18,23 +18,28 @@ final class ListingDetailViewController: MarketBaseViewController<ListingDetailR
     // MARK: Injection
     private let viewModel: IListingDetailViewModel
     
+    override var navigationTitle: String? {
+        return viewModel.navigationTitle
+    }
+    
     // MARK: Init
     init(viewModel: IListingDetailViewModel,
          delegate: ListingDetailViewControllerDelegate? = nil) {
         self.viewModel = viewModel
         self.delegate = delegate
         super.init()
+        rootView.delegate = self.viewModel
     }
     
     override func setupView() {
-        
+        viewModel.viewStateConfigureView()
     }
     
     override func initialComponents() {
         observeViewState()
         listenErrorState()
     }
-
+    
     // MARK: Bindings
     private func observeViewState() {
         viewModel.viewState
@@ -51,6 +56,8 @@ final class ListingDetailViewController: MarketBaseViewController<ListingDetailR
         case .showLoadingProgress(let isProgress):
             self.playNativeLoading(isLoading: isProgress)
             
+        case .configureView(let product):
+            self.rootView.configure(product)
         }
     }
     

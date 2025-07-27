@@ -24,8 +24,8 @@ final class ProductRemoteDataSourceTests: XCTestCase {
     func test_fetchProducts_successfullyReturnsProducts() {
         // GIVEN
         let expectedProducts = [
-            ProductDTO(image: "image1.png", name: "Product 1", price: "1"),
-            ProductDTO(image: "image2.png", name: "Product 2", price: "2")
+            ProductDTO(id: "1", image: "image1.png", name: "Product 1", price: "1", description: "ab"),
+            ProductDTO(id: "2", image: "image2.png", name: "Product 2", price: "2", description: "cd")
         ]
         mockNetworkManager.result = Just(expectedProducts)
             .setFailureType(to: NetworkError.self)

@@ -9,4 +9,5 @@ import Foundation
 
 struct ListingDetailParams: ICoordinatorParams {
     
+    let product: ProductEntity
 }

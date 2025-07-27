@@ -20,7 +20,7 @@ struct ProductUseCase: IProductUseCase {
 
     func execute(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError> {
         productRepository.fetchProducts(page: page, limit: limit, name: name)
-            .map { $0.map { ProductEntity(image: $0.image, name: $0.name, price: $0.price) } }
+            .map { $0.map { ProductEntity(id: $0.id, image: $0.image, name: $0.name, price: $0.price, description: $0.description) } }
             .eraseToAnyPublisher()
     }
 }

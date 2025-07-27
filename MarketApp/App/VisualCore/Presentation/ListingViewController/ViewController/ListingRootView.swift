@@ -13,7 +13,7 @@ protocol ListingRootViewDelegate: AnyObject {
     func listingViewSearchTextDidChange(_ text: String)
 }
 
-// MARK: View Implementation
+// TODO: Adjust layout for pixel-perfect alignment
 final class ListingRootView: BaseRootView {
     
     weak var delegate: ListingRootViewDelegate?

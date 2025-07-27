@@ -8,14 +8,19 @@
 import Foundation
 import Combine
 
-protocol IListingDetailViewModel: AnyObject {
-
+protocol IListingDetailViewModel: ListingDetailRootViewDelegate {
+    
     var viewState: ScreenStateSubject<ListingDetailViewState> { get }
     var errorState: ErrorStateSubject { get }
+    
+    var navigationTitle: String { get }
     
     init(repository: IListingDetailRepository,
          coordinator: IListingDetailCoordinator,
          vmLogic: IListingDetailVMLogic)
+    
+    // ViewState
+    func viewStateConfigureView()
 }
 
 final class ListingDetailViewModel: BaseViewModel, IListingDetailViewModel {
@@ -28,6 +33,10 @@ final class ListingDetailViewModel: BaseViewModel, IListingDetailViewModel {
     // MARK: Props
     var viewState = ScreenStateSubject<ListingDetailViewState>(nil)
     var errorState = ErrorStateSubject(nil)
+    
+    var navigationTitle: String {
+        return vmLogic.navigationTitle
+    }
     
     // MARK: Initiliazer
     required init(repository: IListingDetailRepository,
@@ -47,14 +56,16 @@ internal extension ListingDetailViewModel {
     
 }
 
-// MARK: States
+// MARK: View State
 internal extension ListingDetailViewModel {
     
-    // MARK: View State
-    func viewStateShowLoadingProgress(isProgress: Bool) {
+    private func viewStateShowLoadingProgress(isProgress: Bool) {
         viewState.value = .showLoadingProgress(isProgress: isProgress)
     }
     
+    func viewStateConfigureView() {
+        viewState.value = .configureView(product: vmLogic.product)
+    }
 }
 
 // MARK: Coordinate
@@ -62,6 +73,15 @@ internal extension ListingDetailViewModel {
     
 }
 
+// MARK: ListingDetailRootViewDelegate
+internal extension ListingDetailViewModel {
+    
+    func listingDetailViewDidTapAddToCart() {
+        print("DEBUG: listingDetailViewDidTapAddToCart")
+    }
+}
+
 enum ListingDetailViewState {
     case showLoadingProgress(isProgress: Bool)
+    case configureView(product: ProductEntity)
 }

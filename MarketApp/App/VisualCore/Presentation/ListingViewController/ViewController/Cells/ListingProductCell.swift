@@ -13,6 +13,7 @@ protocol ListingProductCellOutputDelegate: AnyObject {
     func listingProductCellDidTapAddToCart(product: ProductEntity)
 }
 
+// TODO: Adjust layout for pixel-perfect alignment
 final class ListingProductCell: UICollectionViewCell {
     
     static let identifier = "ListingProductCell"

@@ -21,6 +21,7 @@ class MarketBaseViewController<RootView: BaseRootView>: UIViewController {
     }
     
     var cancelBag = Set<AnyCancellable>()
+
     private var nativeProgressView: NativeProgressView?
     
     deinit {
@@ -90,6 +91,7 @@ extension MarketBaseViewController {
     }
 }
 
+// MARK: Handle Error
 extension MarketBaseViewController {
     /*
     func observeErrorState(errorState: ErrorStateSubject,

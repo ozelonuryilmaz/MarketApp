@@ -7,7 +7,7 @@
 
 protocol IListingCoordinator: INavigationCoordinator {
     
-    func pushListingDetailViewController()
+    func pushListingDetailViewController(params: ListingDetailParams)
     func presentFilterViewController()
 }
 
@@ -19,9 +19,9 @@ final class ListingCoordinator: NavigationCoordinator, IListingCoordinator {
         showScreen(viewController: controller)
     }
     
-    func pushListingDetailViewController() {
+    func pushListingDetailViewController(params: ListingDetailParams) {
         let coordinator = ListingDetailCoordinator(navigationController: currentNavigationController())
-            .with(data: ListingDetailParams())
+            .with(data: params)
         coordinate(to: coordinator)
     }
     

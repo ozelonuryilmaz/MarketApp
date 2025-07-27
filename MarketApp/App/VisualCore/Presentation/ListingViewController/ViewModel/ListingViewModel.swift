@@ -106,8 +106,8 @@ internal extension ListingViewModel {
         coordinator.presentFilterViewController()
     }
     
-    func pushListingDetailViewController() {
-        coordinator.pushListingDetailViewController()
+    func pushListingDetailViewController(params: ListingDetailParams) {
+        coordinator.pushListingDetailViewController(params: params)
     }
 }
 
@@ -128,7 +128,8 @@ internal extension ListingViewModel {
 internal extension ListingViewModel {
     
     func listingProductCellDidTap(product: ProductEntity) {
-        pushListingDetailViewController()
+        let params = ListingDetailParams(product: product)
+        pushListingDetailViewController(params: params)
     }
     
     func listingProductCellDidTapAddToCart(product: ProductEntity) {

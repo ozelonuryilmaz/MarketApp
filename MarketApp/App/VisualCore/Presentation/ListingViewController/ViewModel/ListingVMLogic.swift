@@ -86,7 +86,7 @@ extension ListingVMLogic {
     
     func getCellProductModel(at index: Int) -> ProductEntity {
         guard products.indices.contains(index) else {
-            let dummyProduct = ProductEntity(image: "", name: "", price: "")
+            let dummyProduct = ProductEntity(id: "-1", image: "", name: "", price: "", description: "")
             return dummyProduct
         }
 
