@@ -12,10 +12,16 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
     // MARK: Injection
     private let viewModel: IBasketViewModel
     
+    override var navigationTitle: String? {
+        return "E-Market"
+    }
+    
     // MARK: Init
     init(viewModel: IBasketViewModel) {
         self.viewModel = viewModel
         super.init()
+        rootView.delegate = self.viewModel
+        rootView.setDataSource(delegate: self, dataSource: self)
     }
     
     override func setupView() {
@@ -59,4 +65,21 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
 // MARK: Props
 private extension BasketViewController {
     
+}
+
+// MARK: UITableViewDelegate & UITableViewDataSource
+extension BasketViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRowsInSection()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BasketCell.identifier, for: indexPath) as? BasketCell else { return UITableViewCell() }
+        if let cellCartModel = self.viewModel.getCellCartModel(at: indexPath.row) {
+            cell.configure(with: cellCartModel)
+            cell.outputDelegate = self.viewModel
+        }
+        return cell
+    }
 }

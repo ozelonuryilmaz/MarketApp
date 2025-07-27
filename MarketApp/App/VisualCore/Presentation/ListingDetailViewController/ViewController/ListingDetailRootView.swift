@@ -72,6 +72,7 @@ final class ListingDetailRootView: BaseRootView {
         return label
     }()
     
+    // TODO: Extract bottomContainer from ListingDetailRootView and BasketRootView into a shared component
     private let bottomContainer = UIView()
     
     private lazy var priceTitleLabel: UILabel = {
@@ -95,7 +96,7 @@ final class ListingDetailRootView: BaseRootView {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 8
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
         button.addTarget(self, action: #selector(listingDetailViewDidTapAddToCart), for: .touchUpInside)
         return button
     }()
@@ -132,7 +133,12 @@ private extension ListingDetailRootView {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            bottomContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomContainer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            bottomContainer.heightAnchor.constraint(equalToConstant: 80),
         ])
     }
     
@@ -171,11 +177,6 @@ private extension ListingDetailRootView {
         }
         
         NSLayoutConstraint.activate([
-            bottomContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomContainer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            bottomContainer.heightAnchor.constraint(equalToConstant: 80),
-            
             priceTitleLabel.topAnchor.constraint(equalTo: bottomContainer.topAnchor, constant: 12),
             priceTitleLabel.leadingAnchor.constraint(equalTo: bottomContainer.leadingAnchor, constant: 16),
             

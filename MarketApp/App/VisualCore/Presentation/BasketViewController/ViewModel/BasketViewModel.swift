@@ -8,7 +8,8 @@
 import Foundation
 import Combine
 
-protocol IBasketViewModel: AnyObject {
+protocol IBasketViewModel: BasketRootViewDelegate,
+                           BasketCellOutputDelegate {
 
     var viewState: ScreenStateSubject<BasketViewState> { get }
     var errorState: ErrorStateSubject { get }
@@ -19,6 +20,10 @@ protocol IBasketViewModel: AnyObject {
     
     // Service
     func fetchCartItems()
+    
+    // TableView
+    func numberOfRowsInSection() -> Int
+    func getCellCartModel(at index: Int) -> CartEntity?
 }
 
 final class BasketViewModel: BaseViewModel, IBasketViewModel {
@@ -76,6 +81,38 @@ internal extension BasketViewModel {
 // MARK: Coordinate
 internal extension BasketViewModel {
     
+}
+
+// MARK: BasketRootViewDelegate
+internal extension BasketViewModel {
+    
+    func basketViewDidTapComplete() {
+        print("Debug: *** basketViewDidTapComplete")
+    }
+}
+
+// MARK: BasketCellOutputDelegate
+internal extension BasketViewModel {
+    
+    func basketCellDidTapMinus(cart: CartEntity) {
+        print("Debug: *** basketCellDidTapMinus")
+    }
+    
+    func basketCellDidTapPlus(cart: CartEntity) {
+        print("Debug: *** basketCellDidTapPlus")
+    }
+}
+
+// MARK: TableView
+internal extension BasketViewModel {
+    
+    func numberOfRowsInSection() -> Int {
+        return vmLogic.numberOfRowsInSection()
+    }
+    
+    func getCellCartModel(at index: Int) -> CartEntity? {
+        return vmLogic.getCellCartModel(at: index)
+    }
 }
 
 enum BasketViewState {
