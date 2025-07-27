@@ -26,3 +26,10 @@ extension UIView {
         }
     }
 }
+
+extension UIView {
+    
+    func onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
+        addGestureRecognizer(UITapGestureRecognizer(taps: 1, handler: handler))
+    }
+}

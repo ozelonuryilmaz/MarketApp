@@ -30,6 +30,10 @@ final class ListingRootView: BaseRootView {
         collectionView.dataSource = dataSource
     }
     
+    func reloadProductData() {
+        collectionView.reloadData()
+    }
+    
     // MARK: Definitions
     private lazy var searchTextField: SearchTextField = {
         let textfield = SearchTextField()
@@ -62,11 +66,11 @@ final class ListingRootView: BaseRootView {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 16
         layout.minimumLineSpacing = 8
-
+        
         let totalSpacing: CGFloat = 16 * 3
         let width = (UIScreen.main.bounds.width - totalSpacing) / 2
         layout.itemSize = CGSize(width: width, height: width + 100)
-
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.contentInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16) // Kenar boşlukları
         cv.keyboardDismissMode = .onDrag
@@ -74,7 +78,6 @@ final class ListingRootView: BaseRootView {
         cv.register(ListingProductCell.self, forCellWithReuseIdentifier: ListingProductCell.identifier)
         return cv
     }()
-    
 }
 
 // MARK: Setup

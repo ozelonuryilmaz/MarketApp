@@ -8,7 +8,8 @@
 import Foundation
 import Combine
 
-protocol IListingViewModel: ListingRootViewDelegate {
+protocol IListingViewModel: ListingRootViewDelegate,
+                            ListingProductCellOutputDelegate {
     
     var viewState: ScreenStateSubject<ListingViewState> { get }
     var errorState: ErrorStateSubject { get }
@@ -17,8 +18,9 @@ protocol IListingViewModel: ListingRootViewDelegate {
          coordinator: IListingCoordinator,
          vmLogic: IListingVMLogic)
     
-    func fetchProductsPagination()
-    func firstProductsList()
+    // Fetch Product Data
+    func fetchProductsListPagination()
+    func fetctFirstProductsList()
     
     // CollectionView
     func numberOfRowsInSection() -> Int
@@ -26,7 +28,7 @@ protocol IListingViewModel: ListingRootViewDelegate {
 }
 
 final class ListingViewModel: BaseViewModel, IListingViewModel {
-    
+
     // MARK: Definitions
     private let repository: IListingRepository
     private let coordinator: IListingCoordinator
@@ -46,36 +48,36 @@ final class ListingViewModel: BaseViewModel, IListingViewModel {
         super.init()
     }
     
-    // Pagination
-    func fetchProductsPagination() {
+    // Fetch Product Data
+    func fetchProductsListPagination() {
         if self.vmLogic.fetchProductsPagination() {
             self.fetchProducts()
         }
     }
     
-    func firstProductsList() {
+    func fetctFirstProductsList() {
         self.vmLogic.clearRequest()
         self.fetchProducts()
     }
 }
 
-
-
 // MARK: Service
 internal extension ListingViewModel {
     
-    func fetchProducts() {
+    private func fetchProducts() {
         handleResourceDataSource(
-            request: repository.fetchProducts(page: vmLogic.pageSize, limit: vmLogic.pageNumber, name: vmLogic.searchText),
+            request: repository.fetchProducts(page: vmLogic.pageNumber,
+                                              limit: vmLogic.pageSize,
+                                              name: vmLogic.searchText),
             errorState: errorState,
             callbackLoading: { [weak self] isProgress in
                 self?.viewStateShowLoadingProgress(isProgress: isProgress)
             },
             callbackSuccess: { [weak self] response in
                 guard let self, let response else { return }
-                self.vmLogic.products = response
-                // TODO: Pagination gelen eskinin üzerime eklenmeli
-                // TODO: reloadData
+                self.vmLogic.addResponse(response)
+                self.vmLogic.reachLastPagePagination(products: response)
+                self.viewStateReloadProductData()
             },
             callbackComplete: { [weak self] in
                 guard let self = self else { return }
@@ -89,8 +91,12 @@ internal extension ListingViewModel {
 internal extension ListingViewModel {
     
     // MARK: View State
-    func viewStateShowLoadingProgress(isProgress: Bool) {
+    private func viewStateShowLoadingProgress(isProgress: Bool) {
         viewState.value = .showLoadingProgress(isProgress: isProgress)
+    }
+    
+    private func viewStateReloadProductData() {
+        viewState.value = .reloadProductData
     }
 }
 
@@ -108,7 +114,19 @@ internal extension ListingViewModel {
     
     func listingViewSearchTextDidChange(_ text: String) {
         vmLogic.searchText = text
-        firstProductsList()
+        fetctFirstProductsList()
+    }
+}
+
+// MARK: ListingProductCellOutputDelegate
+internal extension ListingViewModel {
+    
+    func listingProductCellDidTap(product: ProductEntity) {
+        print("Debug: listingProductCellDidTapContentView")
+    }
+    
+    func listingProductCellDidTapAddToCart(product: ProductEntity) {
+        print("Debug: listingProductCellDidTapAddToCart")
     }
 }
 
@@ -126,4 +144,5 @@ internal extension ListingViewModel {
 
 enum ListingViewState {
     case showLoadingProgress(isProgress: Bool)
+    case reloadProductData
 }

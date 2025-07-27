@@ -30,7 +30,7 @@ final class ListingViewController: MarketBaseViewController<ListingRootView> {
     
     override func setupView() {
         setupKeyboardDismissGesture()
-        viewModel.firstProductsList()
+        viewModel.fetctFirstProductsList()
     }
     
     override func initialComponents() {
@@ -54,6 +54,8 @@ final class ListingViewController: MarketBaseViewController<ListingRootView> {
         case .showLoadingProgress(let isProgress):
             self.playNativeLoading(isLoading: isProgress)
             
+        case .reloadProductData:
+            self.rootView.reloadProductData()
         }
     }
     
@@ -78,20 +80,21 @@ private extension ListingViewController {
 
 // MARK: UICollectionViewDataSource & UICollectionViewDelegateFlowLayout
 extension ListingViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingProductCell.identifier, for: indexPath) as? ListingProductCell else { return UICollectionViewCell() }
         cell.configure(with: self.viewModel.getCellProductModel(at: indexPath.row))
+        cell.outputDelegate = self.viewModel
         return cell
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.isAvailablePagination {
-            self.viewModel.fetchProductsPagination()
+            self.viewModel.fetchProductsListPagination()
         }
     }
 }

@@ -14,9 +14,11 @@ protocol IListingVMLogic {
     var pageSize: Int { get }
     var pageNumber: Int { get }
     var searchText: String { get set }
-    var products: [ProductEntity] { get set }
     
     init()
+    
+    mutating func addResponse(_ products: [ProductEntity])
+    mutating func reachLastPagePagination(products: [ProductEntity])
     
     // CollectionView
     func numberOfRowsInSection() -> Int
@@ -31,7 +33,7 @@ protocol IListingVMLogic {
 struct ListingVMLogic: IListingVMLogic {
     
     // MARK: Definitions
-    var products: [ProductEntity] = []
+    private var products: [ProductEntity] = []
     
     var isPaginating = false
     var isReachLastPagePagination = false
@@ -40,8 +42,14 @@ struct ListingVMLogic: IListingVMLogic {
     var searchText: String = ""
     
     // MARK: Initialize
-    init() {
-        
+    init() { }
+    
+    mutating func addResponse(_ products: [ProductEntity]) {
+        self.products.append(contentsOf: products)
+    }
+    
+    mutating func reachLastPagePagination(products: [ProductEntity]) {
+        self.isReachLastPagePagination = products.count < self.pageSize
     }
 }
 
@@ -69,7 +77,7 @@ internal extension ListingVMLogic {
     }
 }
 
-// MARK: TableView
+// MARK: CollectionView
 extension ListingVMLogic {
     
     func numberOfRowsInSection() -> Int {
