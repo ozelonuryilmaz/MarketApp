@@ -8,7 +8,7 @@
 import Combine
 
 protocol IFetchCartItemsUseCase {
-    func execute() -> AnyPublisher<[CartEntity], Error>
+    func execute() -> AnyPublisher<[CartEntity], AppError>
 }
 
 struct FetchCartItemsUseCase: IFetchCartItemsUseCase {
@@ -18,8 +18,8 @@ struct FetchCartItemsUseCase: IFetchCartItemsUseCase {
         self.repository = repository
     }
 
-    func execute() -> AnyPublisher<[CartEntity], Error> {
-        repository.fetchCartItems()
+    func execute() -> AnyPublisher<[CartEntity], AppError> {
+        return repository.fetchCartItems()
             .map { dtos in
                 dtos.map { dto in
                     CartEntity(id: dto.id, name: dto.name, quantity: dto.quantity, price: dto.price)

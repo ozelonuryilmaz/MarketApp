@@ -11,7 +11,15 @@ enum BasketBuilder {
     
     static func generate(coordinator: IBasketCoordinator) -> BasketViewController {
         
-        let repository: IBasketRepository = BasketRepository()
+        let addToCartUseCase: IAddToCartUseCase = CartUseCaseProvider.makeAddToCartUseCase()
+        let removeFromCartUseCase: IRemoveFromCartUseCase = CartUseCaseProvider.makeRemoveFromCartUseCase()
+        let fetchCartItemsUseCase: IFetchCartItemsUseCase = CartUseCaseProvider.makeFetchCartItemsUseCase()
+        let repository: IBasketRepository = BasketRepository(
+            addToCartUseCase: addToCartUseCase,
+            removeFromCartUseCase: removeFromCartUseCase,
+            fetchCartItemsUseCase: fetchCartItemsUseCase
+        )
+        
         let vmLogic: IBasketVMLogic = BasketVMLogic()
         
         let viewModel: IBasketViewModel = BasketViewModel(

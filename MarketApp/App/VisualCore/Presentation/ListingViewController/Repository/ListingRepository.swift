@@ -8,18 +8,25 @@
 import Combine
 
 protocol IListingRepository: AnyObject {
-    
-    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError>
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], AppError>
+    func addToCart(item: CartEntity) -> AnyPublisher<Bool, AppError>
 }
 
 final class ListingRepository: BaseRepository, IListingRepository {
-    private let productUseCase: IProductUseCase
+    private let fetchProductUseCase: IFetchProductUseCase
+    private let addToCartUseCase: IAddToCartUseCase
     
-    init(productUseCase: IProductUseCase) {
-        self.productUseCase = productUseCase
+    init(fetchProductUseCase: IFetchProductUseCase,
+         addToCartUseCase: IAddToCartUseCase) {
+        self.fetchProductUseCase = fetchProductUseCase
+        self.addToCartUseCase = addToCartUseCase
     }
     
-    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], NetworkError> {
-        return productUseCase.execute(page: page, limit: limit, name: name)
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductEntity], AppError> {
+        return fetchProductUseCase.execute(page: page, limit: limit, name: name)
+    }
+    
+    func addToCart(item: CartEntity) -> AnyPublisher<Bool, AppError> {
+        return addToCartUseCase.execute(item)
     }
 }

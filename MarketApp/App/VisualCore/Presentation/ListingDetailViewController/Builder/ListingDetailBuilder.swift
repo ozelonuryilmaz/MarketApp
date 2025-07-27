@@ -12,7 +12,9 @@ enum ListingDetailBuilder {
     static func generate(coordinator: IListingDetailCoordinator & BaseCoordinator,
                          delegate: ListingDetailViewControllerDelegate?) -> ListingDetailViewController {
         
-        let repository: IListingDetailRepository = ListingDetailRepository()
+        let addToCartUseCase: IAddToCartUseCase = CartUseCaseProvider.makeAddToCartUseCase()
+        let repository: IListingDetailRepository = ListingDetailRepository(addToCartUseCase: addToCartUseCase)
+        
         let data: ListingDetailParams = coordinator.getParams()
         let vmLogic: IListingDetailVMLogic = ListingDetailVMLogic(data: data)
         

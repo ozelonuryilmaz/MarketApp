@@ -1,17 +1,17 @@
 //
-//  AddToCartUseCase.swift
+//  RemoveFromCartUseCase.swift
 //  MarketApp
 //
-//  Created by Onur Yılmaz on 25.07.2025.
+//  Created by Onur Yılmaz on 27.07.2025.
 //
 
 import Combine
 
-protocol IAddToCartUseCase {
+protocol IRemoveFromCartUseCase {
     func execute(_ item: CartEntity) -> AnyPublisher<Bool, AppError>
 }
 
-struct AddToCartUseCase: IAddToCartUseCase {
+struct RemoveFromCartUseCase: IRemoveFromCartUseCase {
     private let repository: ICartRepository
 
     init(repository: ICartRepository) {
@@ -20,6 +20,6 @@ struct AddToCartUseCase: IAddToCartUseCase {
 
     func execute(_ item: CartEntity) -> AnyPublisher<Bool, AppError> {
         let dto = ProductCartDTO(id: item.id, name: item.name, price: item.price)
-        return repository.addOrUpdateItem(dto)
+        return repository.removeItem(dto)
     }
 }

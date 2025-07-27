@@ -16,6 +16,9 @@ protocol IBasketViewModel: AnyObject {
     init(repository: IBasketRepository,
          coordinator: IBasketCoordinator,
          vmLogic: IBasketVMLogic)
+    
+    // Service
+    func fetchCartItems()
 }
 
 final class BasketViewModel: BaseViewModel, IBasketViewModel {
@@ -45,6 +48,19 @@ final class BasketViewModel: BaseViewModel, IBasketViewModel {
 // MARK: Service
 internal extension BasketViewModel {
     
+    func fetchCartItems() {
+        handleResourceDataSource(
+            request: repository.fetchCartItems(),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            },
+            callbackSuccess: { [weak self] response in
+                guard let _ = self, let response else { return }
+                print("Debug: fetchCartItems: \(response)")
+            }
+        )
+    }
 }
 
 // MARK: States

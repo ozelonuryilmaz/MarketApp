@@ -7,7 +7,7 @@
 
 import Combine
 
-typealias ErrorStateSubject = CurrentValueSubject<NetworkError?, Never>
+typealias ErrorStateSubject = CurrentValueSubject<AppError?, Never>
 typealias ScreenStateSubject<T> = CurrentValueSubject<T?, Never>
 
 class BaseViewModel {
@@ -19,7 +19,7 @@ class BaseViewModel {
     }
 
     func handleResourceDataSource<RESPONSE: Codable>(
-        request: AnyPublisher<RESPONSE, NetworkError>,
+        request: AnyPublisher<RESPONSE, AppError>,
         errorState: ErrorStateSubject,
         callbackLoading: ((Bool) -> Void)? = nil,
         callbackSuccess: ((RESPONSE?) -> Void)? = nil,

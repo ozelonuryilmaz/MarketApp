@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 protocol IProductRemoteDataSource {
-    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductDTO], NetworkError>
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductDTO], AppError>
 }
 
 final class ProductRemoteDataSource: IProductRemoteDataSource {
@@ -19,7 +19,7 @@ final class ProductRemoteDataSource: IProductRemoteDataSource {
         self.networkManager = networkManager
     }
 
-    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductDTO], NetworkError> {
+    func fetchProducts(page: Int, limit: Int, name: String) -> AnyPublisher<[ProductDTO], AppError> {
         // TODO: Add Envirmont environment and separate Dev, Prod, and Stage configurations
         guard let url = URL(string: "https://5fc9346b2af77700165ae514.mockapi.io/products?page=\(page)&limit=\(limit)&name=\(name)") else {
             return Fail(error: .badURL).eraseToAnyPublisher()

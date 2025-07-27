@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol ProfileViewControllerDelegate: AnyObject {
-    
-}
-
 final class ProfileViewController: MarketBaseViewController<ProfileRootView> {
 
     // MARK: Injection
     private let viewModel: IProfileViewModel
+    
+    override var navigationTitle: String? {
+        return "Profil"
+    }
     
     // MARK: Init
     init(viewModel: IProfileViewModel) {

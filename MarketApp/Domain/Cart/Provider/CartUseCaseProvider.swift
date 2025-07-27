@@ -13,8 +13,16 @@ enum CartUseCaseProvider {
         return AddToCartUseCase(repository: self.makeCartRepository())
     }
     
+    static func makeRemoveFromCartUseCase() -> IRemoveFromCartUseCase {
+        return RemoveFromCartUseCase(repository: self.makeCartRepository())
+    }
+    
     static func makeFetchCartItemsUseCase() -> IFetchCartItemsUseCase {
         return FetchCartItemsUseCase(repository: self.makeCartRepository())
+    }
+    
+    static func makeClearAllCartUseCase() -> IClearAllCartUseCase {
+        return ClearAllCartUseCase(repository: self.makeCartRepository())
     }
     
     private static func makeCartRepository() -> ICartRepository {

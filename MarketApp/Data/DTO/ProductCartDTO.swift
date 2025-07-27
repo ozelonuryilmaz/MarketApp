@@ -8,10 +8,17 @@
 struct ProductCartDTO {
     let id: String
     let name: String
-    let quantity: Int
+    let quantity: Int?
     let price: String
     
-    init(id: String, name: String, quantity: Int, price: String) {
+    init(id: String, name: String, price: String) {
+        self.id = id
+        self.name = name
+        self.quantity = nil
+        self.price = price
+    }
+    
+    init(id: String, name: String, quantity: Int?, price: String) {
         self.id = id
         self.name = name
         self.quantity = quantity

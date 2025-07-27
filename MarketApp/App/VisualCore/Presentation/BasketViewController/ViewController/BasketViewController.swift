@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol BasketViewControllerDelegate: AnyObject {
-    
-}
-
 final class BasketViewController: MarketBaseViewController<BasketRootView> {
 
     // MARK: Injection
@@ -29,6 +25,11 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
     override func initialComponents() {
         observeViewState()
         listenErrorState()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchCartItems()
     }
 
     // MARK: Bindings

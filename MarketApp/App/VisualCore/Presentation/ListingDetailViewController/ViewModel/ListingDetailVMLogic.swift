@@ -11,6 +11,7 @@ protocol IListingDetailVMLogic {
     
     var product: ProductEntity { get }
     var navigationTitle: String { get }
+    var cart: CartEntity { get }
     
     init(data: ListingDetailParams)
     
@@ -23,6 +24,10 @@ struct ListingDetailVMLogic: IListingDetailVMLogic {
     
     var navigationTitle: String {
         return product.name
+    }
+    
+    var cart: CartEntity {
+        return CartEntity(id: product.id, name: product.name, price: product.price)
     }
     
     // MARK: Initialize

@@ -11,8 +11,10 @@ enum ListingBuilder {
     
     static func generate(coordinator: IListingCoordinator) -> ListingViewController {
         
-        let productUseCase: IProductUseCase = ProductUseCaseProvider.makeProductUseCase()
-        let repository: IListingRepository = ListingRepository(productUseCase: productUseCase)
+        let fetchProductUseCase: IFetchProductUseCase = ProductUseCaseProvider.makeFetchProductUseCase()
+        let addToCartUseCase: IAddToCartUseCase = CartUseCaseProvider.makeAddToCartUseCase()
+        let repository: IListingRepository = ListingRepository(fetchProductUseCase: fetchProductUseCase,
+                                                               addToCartUseCase: addToCartUseCase)
 
         let vmLogic: IListingVMLogic = ListingVMLogic()
         

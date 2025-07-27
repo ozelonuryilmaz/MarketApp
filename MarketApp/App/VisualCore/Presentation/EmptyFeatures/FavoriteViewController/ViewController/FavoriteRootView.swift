@@ -31,14 +31,14 @@ final class FavoriteRootView: BaseRootView {
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "Favorite"
+        label.text = "Favori"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Devam", for: .normal)
+        button.setTitle("Button", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(favoriteViewDidTapCapture), for: .touchUpInside)
         return button

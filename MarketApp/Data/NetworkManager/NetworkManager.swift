@@ -9,13 +9,14 @@ import Foundation
 import Combine
 
 protocol INetworkManager {
-    func request<T: Decodable>(_ request: HTTPRequest) -> AnyPublisher<T, NetworkError>
+    func request<T: Decodable>(_ request: HTTPRequest) -> AnyPublisher<T, AppError>
 }
 
 final class NetworkManager: INetworkManager {
+
     init() {}
 
-    func request<T: Decodable>(_ request: HTTPRequest) -> AnyPublisher<T, NetworkError> {
+    func request<T: Decodable>(_ request: HTTPRequest) -> AnyPublisher<T, AppError> {
         var urlRequest = URLRequest(url: request.url)
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.httpBody = request.body
@@ -24,25 +25,35 @@ final class NetworkManager: INetworkManager {
         return URLSession.shared.dataTaskPublisher(for: urlRequest)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .tryMap { result -> Data in
-                // TODO: Handle expected ERROR JSON responses explicitly.
-                // Currently, only assumed errors defined in NetworkError are handled.
-                // If the backend returns a known error payload (e.g., errorCode/message) even with status 200,
-                // it should be parsed and converted into a NetworkError.apiError case or a custom error type.
-                guard let httpResponse = result.response as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                    throw NetworkError.serverError((result.response as? HTTPURLResponse)?.statusCode ?? -1)
+                guard let httpResponse = result.response as? HTTPURLResponse else {
+                    throw AppError.networkUnknown(URLError(.badServerResponse))
                 }
+
+                let statusCode = httpResponse.statusCode
+                if !(200...299).contains(statusCode) {
+                    throw AppError.serverError(statusCode)
+                }
+
+                // TODO: Handle error JSON body if needed (e.g., { "error": "Invalid token" })
                 return result.data
             }
             .decode(type: T.self, decoder: JSONDecoder())
-            .mapError { error in
-                if let urlError = error as? URLError, urlError.code == .notConnectedToInternet {
-                    return .noInternet
-                } else if error is DecodingError {
-                    return .decodingError
-                } else if let networkError = error as? NetworkError {
-                    return networkError
+            .mapError { error -> AppError in
+                if let urlError = error as? URLError {
+                    if urlError.code == .notConnectedToInternet {
+                        return .noInternet
+                    }
+                    return .networkUnknown(urlError)
                 }
+
+                if let decodingError = error as? DecodingError {
+                    return .decodingError
+                }
+
+                if let appError = error as? AppError {
+                    return appError
+                }
+
                 return .unknown(error)
             }
             .receive(on: DispatchQueue.main)

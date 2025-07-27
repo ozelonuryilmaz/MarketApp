@@ -54,6 +54,19 @@ final class ListingDetailViewModel: BaseViewModel, IListingDetailViewModel {
 // MARK: Service
 internal extension ListingDetailViewModel {
     
+    private func addToCart(item: CartEntity) {
+        handleResourceDataSource(
+            request: repository.addToCart(item: item),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            },
+            callbackSuccess: { [weak self] response in
+                guard let _ = self, let response else { return }
+                print("Debug: addToCart: \(response)")
+            }
+        )
+    }
 }
 
 // MARK: View State
@@ -77,7 +90,7 @@ internal extension ListingDetailViewModel {
 internal extension ListingDetailViewModel {
     
     func listingDetailViewDidTapAddToCart() {
-        print("DEBUG: listingDetailViewDidTapAddToCart")
+        addToCart(item: vmLogic.cart)
     }
 }
 

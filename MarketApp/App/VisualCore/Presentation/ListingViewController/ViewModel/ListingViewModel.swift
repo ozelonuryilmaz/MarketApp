@@ -24,7 +24,7 @@ protocol IListingViewModel: ListingRootViewDelegate,
     
     // CollectionView
     func numberOfRowsInSection() -> Int
-    func getCellProductModel(at index: Int) -> ProductEntity
+    func getCellProductModel(at index: Int) -> ProductEntity?
 }
 
 final class ListingViewModel: BaseViewModel, IListingViewModel {
@@ -85,6 +85,20 @@ internal extension ListingViewModel {
             }
         )
     }
+    
+    private func addToCart(item: CartEntity) {
+        handleResourceDataSource(
+            request: repository.addToCart(item: item),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            },
+            callbackSuccess: { [weak self] response in
+                guard let _ = self, let response else { return }
+                print("Debug: addToCart: \(response)")
+            }
+        )
+    }
 }
 
 // MARK: View State
@@ -133,7 +147,8 @@ internal extension ListingViewModel {
     }
     
     func listingProductCellDidTapAddToCart(product: ProductEntity) {
-        print("Debug: listingProductCellDidTapAddToCart")
+        let cart = CartEntity(id: product.id, name: product.name, price: product.price)
+        addToCart(item: cart)
     }
 }
 
@@ -144,7 +159,7 @@ internal extension ListingViewModel {
         return vmLogic.numberOfRowsInSection()
     }
     
-    func getCellProductModel(at index: Int) -> ProductEntity {
+    func getCellProductModel(at index: Int) -> ProductEntity? {
         return vmLogic.getCellProductModel(at: index)
     }
 }

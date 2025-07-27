@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ListingViewControllerDelegate: AnyObject {
-    
-}
-
 final class ListingViewController: MarketBaseViewController<ListingRootView> {
     
     // MARK: Injection
@@ -87,8 +83,10 @@ extension ListingViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingProductCell.identifier, for: indexPath) as? ListingProductCell else { return UICollectionViewCell() }
-        cell.configure(with: self.viewModel.getCellProductModel(at: indexPath.row))
-        cell.outputDelegate = self.viewModel
+        if let cellProductModel = self.viewModel.getCellProductModel(at: indexPath.row) {
+            cell.configure(with: cellProductModel)
+            cell.outputDelegate = self.viewModel
+        }
         return cell
     }
     

@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol FavoriteViewControllerDelegate: AnyObject {
-    
-}
-
 final class FavoriteViewController: MarketBaseViewController<FavoriteRootView> {
     
     // MARK: Injection
     private let viewModel: IFavoriteViewModel
+    
+    override var navigationTitle: String? {
+        return "Favori"
+    }
     
     // MARK: Init
     init(viewModel: IFavoriteViewModel) {

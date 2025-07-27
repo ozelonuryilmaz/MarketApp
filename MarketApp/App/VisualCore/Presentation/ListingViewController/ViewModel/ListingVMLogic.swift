@@ -22,7 +22,7 @@ protocol IListingVMLogic {
     
     // CollectionView
     func numberOfRowsInSection() -> Int
-    func getCellProductModel(at index: Int) -> ProductEntity
+    func getCellProductModel(at index: Int) -> ProductEntity?
     
     // Pagination
     mutating func fetchProductsPagination() -> Bool
@@ -84,12 +84,8 @@ extension ListingVMLogic {
         return products.count
     }
     
-    func getCellProductModel(at index: Int) -> ProductEntity {
-        guard products.indices.contains(index) else {
-            let dummyProduct = ProductEntity(id: "-1", image: "", name: "", price: "", description: "")
-            return dummyProduct
-        }
-
+    func getCellProductModel(at index: Int) -> ProductEntity? {
+        guard products.indices.contains(index) else { return nil }
         return products[index]
     }
 }

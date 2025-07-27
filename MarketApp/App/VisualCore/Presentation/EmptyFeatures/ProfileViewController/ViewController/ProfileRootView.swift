@@ -31,14 +31,14 @@ final class ProfileRootView: BaseRootView {
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "Profile"
+        label.text = "Profil"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Devam", for: .normal)
+        button.setTitle("Button", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(profileViewDidTapCapture), for: .touchUpInside)
         return button

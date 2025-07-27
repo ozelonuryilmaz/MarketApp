@@ -7,10 +7,10 @@
 
 enum ProductUseCaseProvider {
 
-    static func makeProductUseCase() -> IProductUseCase {
+    static func makeFetchProductUseCase() -> IFetchProductUseCase {
         let networkManager: INetworkManager = NetworkManager()
         let remoteDataSource: IProductRemoteDataSource = ProductRemoteDataSource(networkManager: networkManager)
         let productRepository: IProductRepository = ProductRepository(remoteDataSource: remoteDataSource)
-        return ProductUseCase(productRepository: productRepository)
+        return FetchProductUseCase(productRepository: productRepository)
     }
 }
