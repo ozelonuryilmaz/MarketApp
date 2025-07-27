@@ -15,6 +15,9 @@ protocol IBasketVMLogic {
     
     mutating func setResponse(_ response: [CartEntity])
     
+    mutating func increaseQuantity(for item: CartEntity)
+    mutating func decreaseQuantity(for item: CartEntity)
+    
     // TableView
     func numberOfRowsInSection() -> Int
     func getCellCartModel(at index: Int) -> CartEntity?
@@ -43,6 +46,39 @@ extension BasketVMLogic {
     
     mutating func setResponse(_ response: [CartEntity]) {
         self.carts = response
+    }
+}
+
+// MARK: Quantity Update
+extension BasketVMLogic {
+    
+    mutating func increaseQuantity(for item: CartEntity) {
+        guard let index = carts.firstIndex(where: { $0.id == item.id }) else { return }
+        
+        let currentQuantity = carts[index].quantity ?? 0
+        carts[index] = CartEntity(
+            id: item.id,
+            name: item.name,
+            quantity: currentQuantity + 1,
+            price: item.price
+        )
+    }
+    
+    mutating func decreaseQuantity(for item: CartEntity) {
+        guard let index = carts.firstIndex(where: { $0.id == item.id }) else { return }
+        
+        let currentQuantity = carts[index].quantity ?? 0
+        
+        if currentQuantity <= 1 {
+            carts.remove(at: index)
+        } else {
+            carts[index] = CartEntity(
+                id: item.id,
+                name: item.name,
+                quantity: currentQuantity - 1,
+                price: item.price
+            )
+        }
     }
 }
 

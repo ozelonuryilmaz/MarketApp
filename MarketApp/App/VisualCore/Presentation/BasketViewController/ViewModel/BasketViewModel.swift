@@ -10,7 +10,7 @@ import Combine
 
 protocol IBasketViewModel: BasketRootViewDelegate,
                            BasketCellOutputDelegate {
-
+    
     var viewState: ScreenStateSubject<BasketViewState> { get }
     var errorState: ErrorStateSubject { get }
     
@@ -49,7 +49,6 @@ final class BasketViewModel: BaseViewModel, IBasketViewModel {
     
 }
 
-
 // MARK: Service
 internal extension BasketViewModel {
     
@@ -65,6 +64,42 @@ internal extension BasketViewModel {
                 self.vmLogic.setResponse(response)
                 self.viewStateSetTotalPrice()
                 self.viewStateReloadCartData()
+            }
+        )
+    }
+    
+    private func addToCart(item: CartEntity) {
+        handleResourceDataSource(
+            request: repository.addToCart(item: item),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            },
+            callbackSuccess: { [weak self] response in
+                guard let self else { return }
+                self.vmLogic.increaseQuantity(for: item)
+                self.viewStateSetTotalPrice()
+                self.viewStateReloadCartData()
+                // TODO: Instead of using reloadData, update only the item at its index.
+                // You can also use DiffableDataSource and apply changes using a snapshot.
+            }
+        )
+    }
+    
+    private func removeItem(item: CartEntity) {
+        handleResourceDataSource(
+            request: repository.removeItem(item: item),
+            errorState: errorState,
+            callbackLoading: { [weak self] isProgress in
+                self?.viewStateShowLoadingProgress(isProgress: isProgress)
+            },
+            callbackSuccess: { [weak self] response in
+                guard let self else { return }
+                self.vmLogic.decreaseQuantity(for: item)
+                self.viewStateSetTotalPrice()
+                self.viewStateReloadCartData()
+                // TODO: Instead of using reloadData, update only the item at its index.
+                // You can also use DiffableDataSource and apply changes using a snapshot.
             }
         )
     }
@@ -103,11 +138,11 @@ internal extension BasketViewModel {
 internal extension BasketViewModel {
     
     func basketCellDidTapMinus(cart: CartEntity) {
-        print("Debug: *** basketCellDidTapMinus")
+        self.removeItem(item: cart)
     }
     
     func basketCellDidTapPlus(cart: CartEntity) {
-        print("Debug: *** basketCellDidTapPlus")
+        self.addToCart(item: cart)
     }
 }
 
