@@ -13,7 +13,7 @@ final class BasketCoordinator: NavigationCoordinator, IBasketCoordinator {
 
     override func start() {
         let controller = BasketBuilder.generate(coordinator: self)
-        //controller.modalPresentationStyle = .fullScreen
+        controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }
     

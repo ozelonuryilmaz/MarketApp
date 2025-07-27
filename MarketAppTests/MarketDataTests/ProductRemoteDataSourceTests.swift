@@ -24,8 +24,8 @@ final class ProductRemoteDataSourceTests: XCTestCase {
     func test_fetchProducts_successfullyReturnsProducts() {
         // GIVEN
         let expectedProducts = [
-            ProductDTO(image: "image1.png", name: "Product 1"),
-            ProductDTO(image: "image2.png", name: "Product 2")
+            ProductDTO(image: "image1.png", name: "Product 1", price: "1"),
+            ProductDTO(image: "image2.png", name: "Product 2", price: "2")
         ]
         mockNetworkManager.result = Just(expectedProducts)
             .setFailureType(to: NetworkError.self)
@@ -34,7 +34,7 @@ final class ProductRemoteDataSourceTests: XCTestCase {
         let expectation = self.expectation(description: "Should return product list")
         
         // WHEN
-        sut.fetchProducts(page: 1, limit: 2)
+        sut.fetchProducts(page: 1, limit: 2, name: "")
             .sink(receiveCompletion: { _ in },
                   receiveValue: { products in
                 // THEN
@@ -54,7 +54,7 @@ final class ProductRemoteDataSourceTests: XCTestCase {
         // WHEN
         let expectation = expectation(description: "Should return noInternet error")
         
-        sut.fetchProducts(page: 1, limit: 10)
+        sut.fetchProducts(page: 1, limit: 10, name: "")
             .sink(receiveCompletion: { completion in
                 // THEN
                 if case .failure(let error) = completion {

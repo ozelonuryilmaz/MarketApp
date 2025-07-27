@@ -40,7 +40,7 @@ final class ListingProductCell: UICollectionViewCell {
     func configure(with product: ProductEntity) {
         registerEvents(product: product)
         
-        priceLabel.text = "\(product.price) ₺"
+        priceLabel.text = "\(product.price.formattedPrice) ₺"
         nameLabel.text = "\(product.name)"
     }
     

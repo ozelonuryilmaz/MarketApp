@@ -13,7 +13,7 @@ final class FavoriteCoordinator: NavigationCoordinator, IFavoriteCoordinator {
 
     override func start() {
         let controller = FavoriteBuilder.generate(coordinator: self)
-        //controller.modalPresentationStyle = .fullScreen
+        controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }
     

@@ -103,13 +103,16 @@ internal extension ListingViewModel {
 // MARK: Coordinate
 internal extension ListingViewModel {
     
+    func presentFilterViewController() {
+        coordinator.presentFilterViewController()
+    }
 }
 
 // MARK: ListingRootViewDelegate
 internal extension ListingViewModel {
     
     func listingViewDidTapFilter() {
-        print("Debug: listingViewDidTapFilter")
+        presentFilterViewController()
     }
     
     func listingViewSearchTextDidChange(_ text: String) {

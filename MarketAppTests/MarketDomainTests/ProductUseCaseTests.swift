@@ -24,8 +24,8 @@ final class ProductUseCaseTests: XCTestCase {
     func test_execute_withValidResponse_shouldReturnMappedEntities() {
         // GIVEN
         let productDTOs = [
-            ProductDTO(image: "image1.jpg", name: "Product A"),
-            ProductDTO(image: "image2.jpg", name: "Product B")
+            ProductDTO(image: "image1.jpg", name: "Product A", price: "1"),
+            ProductDTO(image: "image2.jpg", name: "Product B", price: "1")
         ]
         mockRepository.result = Just(productDTOs)
             .setFailureType(to: NetworkError.self)
@@ -34,7 +34,7 @@ final class ProductUseCaseTests: XCTestCase {
         let expectation = expectation(description: "Should return ProductEntity list")
 
         // WHEN
-        sut.execute(page: 1, limit: 2)
+        sut.execute(page: 1, limit: 2, name: "")
             .sink(receiveCompletion: { _ in }, receiveValue: { entities in
                 // THEN
                 XCTAssertEqual(entities.count, 2)
@@ -53,7 +53,7 @@ final class ProductUseCaseTests: XCTestCase {
         let expectation = expectation(description: "Should fail with noInternet error")
 
         // WHEN
-        sut.execute(page: 1, limit: 2)
+        sut.execute(page: 1, limit: 2, name: "")
             .sink(receiveCompletion: { completion in
                 // THEN
                 if case .failure(let error) = completion {

@@ -13,7 +13,7 @@ final class ProfileCoordinator: NavigationCoordinator, IProfileCoordinator {
 
     override func start() {
         let controller = ProfileBuilder.generate(coordinator: self)
-        //controller.modalPresentationStyle = .fullScreen
+        controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }
     
