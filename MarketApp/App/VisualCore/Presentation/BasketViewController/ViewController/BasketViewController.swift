@@ -23,11 +23,7 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
         rootView.delegate = self.viewModel
         rootView.setDataSource(delegate: self, dataSource: self)
     }
-    
-    override func setupView() {
-        
-    }
-    
+
     override func initialComponents() {
         observeViewState()
         listenErrorState()
@@ -35,6 +31,10 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        /// Products may be updated from other devices or sources.
+        /// Always fetch latest data when the page opens.
+        /// Listen to socket updates for real-time changes.
+        /// Avoid using NotificationCenter or reactive patterns here — may cause sync issues.
         viewModel.fetchCartItems()
     }
 
@@ -54,6 +54,11 @@ final class BasketViewController: MarketBaseViewController<BasketRootView> {
         case .showLoadingProgress(let isProgress):
             self.playNativeLoading(isLoading: isProgress)
             
+        case .reloadCartData:
+            self.rootView.reloadCartData()
+            
+        case .setTotalPrice(let price):
+            self.rootView.setTotalPrice(price)
         }
     }
     

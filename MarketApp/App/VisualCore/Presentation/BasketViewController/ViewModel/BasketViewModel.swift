@@ -61,21 +61,29 @@ internal extension BasketViewModel {
                 self?.viewStateShowLoadingProgress(isProgress: isProgress)
             },
             callbackSuccess: { [weak self] response in
-                guard let _ = self, let response else { return }
-                print("Debug: fetchCartItems: \(response)")
+                guard let self, let response else { return }
+                self.vmLogic.setResponse(response)
+                self.viewStateSetTotalPrice()
+                self.viewStateReloadCartData()
             }
         )
     }
 }
 
-// MARK: States
+// MARK: View State
 internal extension BasketViewModel {
     
-    // MARK: View State
     func viewStateShowLoadingProgress(isProgress: Bool) {
         viewState.value = .showLoadingProgress(isProgress: isProgress)
     }
     
+    private func viewStateReloadCartData() {
+        viewState.value = .reloadCartData
+    }
+    
+    private func viewStateSetTotalPrice() {
+        viewState.value = .setTotalPrice(price: vmLogic.totalPrice)
+    }
 }
 
 // MARK: Coordinate
@@ -117,4 +125,6 @@ internal extension BasketViewModel {
 
 enum BasketViewState {
     case showLoadingProgress(isProgress: Bool)
+    case reloadCartData
+    case setTotalPrice(price: String)
 }

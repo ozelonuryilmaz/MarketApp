@@ -28,7 +28,7 @@ final class ProductRemoteDataSourceTests: XCTestCase {
             ProductDTO(id: "2", image: "image2.png", name: "Product 2", price: "2", description: "cd")
         ]
         mockNetworkManager.result = Just(expectedProducts)
-            .setFailureType(to: NetworkError.self)
+            .setFailureType(to: AppError.self)
             .eraseToAnyPublisher()
         
         let expectation = self.expectation(description: "Should return product list")
@@ -49,7 +49,7 @@ final class ProductRemoteDataSourceTests: XCTestCase {
     
     func test_fetchProducts_networkManagerReturnsError_shouldPropagateError() {
         // GIVEN
-        mockNetworkManager.result = Fail(error: NetworkError.noInternet).eraseToAnyPublisher()
+        mockNetworkManager.result = Fail(error: AppError.noInternet).eraseToAnyPublisher()
         
         // WHEN
         let expectation = expectation(description: "Should return noInternet error")

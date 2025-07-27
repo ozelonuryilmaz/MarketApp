@@ -32,12 +32,14 @@ final class BasketRootView: BaseRootView {
     func setDataSource(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
         tableView.delegate = delegate
         tableView.dataSource = dataSource
-        
-        reloadCartData()
     }
     
     func reloadCartData() {
         tableView.reloadData()
+    }
+    
+    func setTotalPrice(_ price: String) {
+        priceValueLabel.text = price
     }
     
     // MARK: Definitions

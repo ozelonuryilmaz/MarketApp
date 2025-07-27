@@ -16,5 +16,4 @@ final class BasketCoordinator: NavigationCoordinator, IBasketCoordinator {
         controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
     }
-    
 }

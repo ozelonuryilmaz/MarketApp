@@ -5,13 +5,13 @@ import Combine
 final class ProductUseCaseTests: XCTestCase {
     private var cancellables: Set<AnyCancellable>!
     private var mockRepository: MockProductRepository!
-    private var sut: ProductUseCase!
+    private var sut: FetchProductUseCase!
 
     override func setUp() {
         super.setUp()
         cancellables = []
         mockRepository = MockProductRepository()
-        sut = ProductUseCase(productRepository: mockRepository)
+        sut = FetchProductUseCase(productRepository: mockRepository)
     }
 
     override func tearDown() {
@@ -28,7 +28,7 @@ final class ProductUseCaseTests: XCTestCase {
             ProductDTO(id: "2", image: "image2.jpg", name: "Product B", price: "1", description: "cd")
         ]
         mockRepository.result = Just(productDTOs)
-            .setFailureType(to: NetworkError.self)
+            .setFailureType(to: AppError.self)
             .eraseToAnyPublisher()
 
         let expectation = expectation(description: "Should return ProductEntity list")
@@ -49,7 +49,7 @@ final class ProductUseCaseTests: XCTestCase {
 
     func test_execute_withRepositoryError_shouldPropagateError() {
         // GIVEN
-        mockRepository.result = Fail(error: NetworkError.noInternet).eraseToAnyPublisher()
+        mockRepository.result = Fail(error: AppError.noInternet).eraseToAnyPublisher()
         let expectation = expectation(description: "Should fail with noInternet error")
 
         // WHEN
