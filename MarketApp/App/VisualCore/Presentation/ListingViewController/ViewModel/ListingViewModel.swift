@@ -87,10 +87,9 @@ internal extension ListingViewModel {
     }
 }
 
-// MARK: States
+// MARK: View State
 internal extension ListingViewModel {
-    
-    // MARK: View State
+
     private func viewStateShowLoadingProgress(isProgress: Bool) {
         viewState.value = .showLoadingProgress(isProgress: isProgress)
     }
@@ -105,6 +104,10 @@ internal extension ListingViewModel {
     
     func presentFilterViewController() {
         coordinator.presentFilterViewController()
+    }
+    
+    func pushListingDetailViewController() {
+        coordinator.pushListingDetailViewController()
     }
 }
 
@@ -125,7 +128,7 @@ internal extension ListingViewModel {
 internal extension ListingViewModel {
     
     func listingProductCellDidTap(product: ProductEntity) {
-        print("Debug: listingProductCellDidTapContentView")
+        pushListingDetailViewController()
     }
     
     func listingProductCellDidTapAddToCart(product: ProductEntity) {

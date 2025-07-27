@@ -35,6 +35,11 @@ final class ListingRootView: BaseRootView {
     }
     
     // MARK: Definitions
+    
+    // TODO: Add 3 UIViews inside ScrollView with proper priority to auto-expand.
+    // Include search, filter, and collectionView in these views.
+    // This setup will allow search and filter to hide during scrolling
+    
     private lazy var searchTextField: SearchTextField = {
         let textfield = SearchTextField()
         textfield.addTarget(self, action: #selector(listingViewSearchTextDidChange(_:)), for: .editingChanged)

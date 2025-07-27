@@ -7,16 +7,22 @@
 
 protocol IListingCoordinator: INavigationCoordinator {
     
+    func pushListingDetailViewController()
     func presentFilterViewController()
 }
 
 final class ListingCoordinator: NavigationCoordinator, IListingCoordinator {
 
-    
     override func start() {
         let controller = ListingBuilder.generate(coordinator: self)
         controller.modalPresentationStyle = .fullScreen
         showScreen(viewController: controller)
+    }
+    
+    func pushListingDetailViewController() {
+        let coordinator = ListingDetailCoordinator(navigationController: currentNavigationController())
+            .with(data: ListingDetailParams())
+        coordinate(to: coordinator)
     }
     
     func presentFilterViewController() {
