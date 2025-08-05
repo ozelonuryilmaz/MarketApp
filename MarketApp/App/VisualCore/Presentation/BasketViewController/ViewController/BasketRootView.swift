@@ -44,6 +44,9 @@ final class BasketRootView: BaseRootView {
     
     // MARK: Definitions
     
+    // TODO: Avoid unsafe and inefficient use of 'lazy'.
+    // Use 'let' for properties that must always be visible on the screen.
+    // TODO: Make sure all operations go through a single instance to prevent conflicts.
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)

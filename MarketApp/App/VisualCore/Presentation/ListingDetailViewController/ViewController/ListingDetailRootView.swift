@@ -42,6 +42,9 @@ final class ListingDetailRootView: BaseRootView {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
+    // TODO: Avoid unsafe and inefficient use of 'lazy'.
+    // Use 'let' for properties that must always be visible on the screen.
+    // TODO: Make sure all operations go through a single instance to prevent conflicts.
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = nil

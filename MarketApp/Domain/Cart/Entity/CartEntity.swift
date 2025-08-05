@@ -7,6 +7,8 @@
 
 import Foundation
 
+// TODO: Make sure changes in any layer are reflected across all layers.
+// TODO: Do not use Entity in the App layer.
 struct CartEntity: Codable {
     let id: String
     let name: String

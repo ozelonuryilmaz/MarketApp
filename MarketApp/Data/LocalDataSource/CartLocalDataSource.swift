@@ -17,6 +17,10 @@ protocol ICartLocalDataSource: AnyObject {
 
 final class CartLocalDataSource: BaseCoreDataManager<CartItemEntity>, ICartLocalDataSource {
     
+    // TODO: When user starts a queue for basket actions in Listing Tab,
+    // make sure it completes before switching to Basket Tab.
+    // Otherwise, a new queue may be created and cause data inconsistency.
+    // Ensure operations run through a single instance to avoid conflicts.
     private let queue = DispatchQueue(label: "com.marketdata.cartQueue", attributes: .concurrent)
     
     func fetchCart() -> AnyPublisher<[ProductCartDTO], AppError> {
